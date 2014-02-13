@@ -1,0 +1,4 @@
+[03-Jan-2014 03:09:37 America/Denver] PHP Parse error:  syntax error, unexpected 'public' (T_PUBLIC) in /home3/aphaulag/public_html/apTracker/app/Controller/DriversController.php on line 114
+[03-Jan-2014 03:10:08 America/Denver] PHP Parse error:  syntax error, unexpected end of file, expecting function (T_FUNCTION) in /home3/aphaulag/public_html/apTracker/app/Controller/DriversController.php on line 116
+[04-Jan-2014 10:07:21 America/Denver] PHP Parse error:  syntax error, unexpected '=>' (T_DOUBLE_ARROW) in /home3/aphaulag/public_html/apTracker/app/View/Layouts/default.ctp on line 55
+[08-Jan-2014 07:07:17 America/Denver] PHP Fatal error:  Call to a member function script() on a non-object in /home3/aphaulag/public_html/apTracker/app/Controller/DriversController.php on line 33
