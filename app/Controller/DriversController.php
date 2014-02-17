@@ -123,6 +123,9 @@ class DriversController extends AppController {
 			
             if ($this->Driver->save($this->request->data)) {   
                 $this->Session->setFlash(__('Driver Added!'));
+                $this->User->set('driver_id', $this->Driver->id);
+                $this->User->save($data);
+
                 return $this->redirect('manage');			
             } 
             else {
@@ -196,10 +199,13 @@ class DriversController extends AppController {
 
     }
 
-    public function update() {
+    public function update($email = null) {
         if($this->request->data['key'] == "9c36c7108a73324100bc9305f581979071d45ee9"){
-            //$this->Driver->id = $this->Driver->find('first', array('id'), array('conditions' => array('id' => $this->request->data['email'])));
-            $this->Driver->id = $this->request->data['id'];
+            $driver = $this->Driver->find('first', array('conditions' => array('Driver.email' => $this->request->data['email'])));
+           // $this->Driver->id = $this->request->data['id'];
+            $this->Driver->id = $driver['Driver']['id'];
+               // $this->request->data = $this->Driver->findById($this->request->data['id']);
+
             if ($this->Driver->save($this->request->data)) {
                 $message = 'Driver Updated';
             } else {

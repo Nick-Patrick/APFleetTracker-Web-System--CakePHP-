@@ -19,7 +19,7 @@ class JobsController extends AppController {
  * Other Models
  * Job
  */
-    var $uses = array('Job','Location','Package','Driver','Vehicle');
+    var $uses = array('Job','Location','Package','Driver','Vehicle','User','Job_Package');
 
 /**
 * Helpers
@@ -85,6 +85,7 @@ class JobsController extends AppController {
 				$this->Vehicle->id = $this->request->data['DriverVehicleJob']['vehicle_id'];
 				$this->Driver->saveField('available','Assigned');
 				$this->Vehicle->saveField('available','Assigned');
+				$this->Job->saveField('driver_id', $this->request->data['DriverVehicleJob']['driver_id']);
 			}
 
 			return $this->redirect(array('action' => 'index'));
@@ -151,6 +152,16 @@ class JobsController extends AppController {
 	}
 
 	public function addJob(){
+		$currentUserId = CakeSession::read("Auth.User.id");
+		$currentUser = $this->User->find('first', array(
+			'fields' => array('User.first_name','User.last_name'),
+			'conditions' => array('User.id' => $currentUserId)
+			)
+		);
+            //$id = $this->Driver->find('first', array('id'), array('conditions' => array('email' => $this->request->data['email'])));
+
+		$this->set('currentUserName', $currentUser);
+
      	$locations = $this->Location->find('list', array(
      		'fields' => array('id','name'), 'order' => array('created' => 'desc')
      		)
@@ -168,13 +179,13 @@ class JobsController extends AppController {
      	);*/
 
 		$drivers = $this->Driver->find('all', array(
-			'conditions' => array('available' => 'Available')
+			//'conditions' => array('available' => 'Available')
 			)
 		);
 
      	$vehicles = $this->Vehicle->find('list', array(
      		'fields' => array('id', 'name'),
-     		'conditions' => array('available' => 'Yes')
+     		//'conditions' => array('available' => 'Yes')
      		)
      	);
 
@@ -192,26 +203,26 @@ class JobsController extends AppController {
      		$key = $this->request->data['key'];
      		$driverId = $this->request->data['driver_id'];
 
-     		$driverJobs = $this->Job->DriverVehicleJob->find('all', array(
+			/*$message = $this->Job->DriverVehicleJob->find('all', array(
      			'conditions' => array(
-     				array('DriverVehicleJob.driver_id' => $driverId),
-     				array('DriverVehicleJob.status' => 'Assigned')
+     				array('DriverVehicleJob.driver_id' => $driverId)
      				)
      			)
-     		);
+     		);*/
 
-     		$message = $this->Job->find('all', array(
-     			'conditions' => array('Job.status' => 'Assigned')
-     			)
-     		);
-     		if($message == ""){
-     			$message = "No jobs found.";
+			$driverJobs = $this->Job->find('all', array(
+				'conditions' => array('driver_id' => $driverId)));
+
+     	
+     		if($driverJobs == "[]") {
+     			$driverJobs = "No jobs found.";
      		}
      	}
      	else  {
-     		$message = "You are not authorized for this page.";
+     		$driverJobs = "You are not authorized for this page.";
      	}
-     	$this->set('message', $message);
+     	
+     	$this->set('message', $driverJobs);
      	$this->set('_serialize', array('message'));
      }
 

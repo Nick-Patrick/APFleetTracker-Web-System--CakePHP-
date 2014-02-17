@@ -83,7 +83,7 @@ function updateLocationDetails(collectionId, locationResult){
         			$('#collection_address3').html(v.Location.address3);
         			$('#collection_town').html(v.Location.town);
         			$('#collection_county').html(v.Location.county);
-        			$('#collection_postcode').html(v.Location.town);
+        			$('#collection_postcode').html(v.Location.postcode);
         			$('#collection_telephone').html(v.Location.telephone);
         			$('#mon').html(v.LocationOpeningTime[0].monday_open);
         			$('#mon_c').html(v.LocationOpeningTime[0].monday_close);
@@ -112,7 +112,7 @@ function updateDropoffDetails(dropoffId, locationResult){
         			$('#dropoff_address3').html(v.Location.address3);
         			$('#dropoff_town').html(v.Location.town);
         			$('#dropoff_county').html(v.Location.county);
-        			$('#dropoff_postcode').html(v.Location.town);
+        			$('#dropoff_postcode').html(v.Location.postcode);
         			$('#dropoff_telephone').html(v.Location.telephone);
         			$('#d_mon').html(v.LocationOpeningTime[0].monday_open);
         			$('#d_mon_c').html(v.LocationOpeningTime[0].monday_close);

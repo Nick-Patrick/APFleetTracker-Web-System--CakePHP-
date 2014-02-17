@@ -71,13 +71,29 @@ class LocationsController extends AppController {
 			Configure::write('debug',0);
 
 				if(!empty($this->request->data)){
-					$location = $this->Location->save($this->request->data);
+						
+						// Get lat/lng from Google.
+						$postcode = $this->request->data['Location']['postcode'];
+						
+						$search_code = urlencode($postcode);
+						$url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' . $search_code . '&sensor=false';
+						$json = json_decode(file_get_contents($url));
+						
+						$lat = $json->results[0]->geometry->location->lat;
+						$lng = $json->results[0]->geometry->location->lng;
 	
+						// End get lat/lng from Google.
+						$this->Location->set('longitude', $lng);
+						$this->Location->set('latitude', $lat);
+											$location = $this->Location->save($this->request->data);
+
 					if(!empty($location)){
+
 						$this->set('location_id',$this->Location->id);
 						$this->request->data['LocationOpeningTime']['location_id'] = $this->Location->id;
 						$this->Location->LocationOpeningTime->save($this->request->data);
 						return $this->redirect(array('action'=>'index'));
+						//return false;
 					}
 				}	
 				//return false;	

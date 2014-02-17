@@ -44,7 +44,7 @@ class UsersController extends AppController {
     			$password = $this->request->data['password'];
 		
 				$encryptPass = AuthComponent::password($password);
-		Configure::write('debug', 0); 
+				Configure::write('debug', 0); 
 				$driverUsers = 	$this->User->find('all', array(
 					'conditions' => array(
 							array('User.username' => $username),

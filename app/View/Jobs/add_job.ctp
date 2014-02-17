@@ -235,6 +235,8 @@
                 <ul>
                     <li><h5>Assigned Driver: <span style="font-weight:700;" id="assignedDriver"></span></h5></li>
                     <li><h5>Assigned Vehicle: <span style="font-weight:700;" id="assignedVehicle"></span></h5></li>
+                    <li><h5>Created By: <span style="font-weight:700;" id="createdBy"><?php echo $currentUserName['User']['first_name'] . " " . $currentUserName['User']['last_name']; ?></span></h5></li>
+                    <input name="data[Job][created_by]" type="hidden" id="jobCreatedBy" value="<?php echo $currentUserName['User']['first_name'] . ' ' . $currentUserName['User']['last_name']; ?>"/>
                 </ul>
             </div>
             <div class="large-6 columns">
@@ -481,7 +483,7 @@
                                  <button id="modalPackageCancelButton" class="alert button">Cancel</button>
                            </li>
                            <li>
-                                 <?php echo $this->Form->submit(__('Save Location', true), 
+                                 <?php echo $this->Form->submit(__('Save Package', true), 
                                      array('name' => 'addPackage', 'id' => 'modalPackageApplyButton', 'class' => 'button right', 'tabindex' => '10'));  
                              ?>
                            </li>

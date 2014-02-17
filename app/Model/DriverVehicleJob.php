@@ -40,4 +40,5 @@ class DriverVehicleJob extends AppModel {
 			'order' => ''
 		)
 	);
+
 }
