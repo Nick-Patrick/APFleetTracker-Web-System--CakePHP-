@@ -27,7 +27,7 @@ class DriversController extends AppController {
 
     public function beforeFilter(){
         parent::beforeFilter();
-       $this->Auth->allow('update','driversByEmail');
+       $this->Auth->allow('update','driversByEmail','updateById');
     }
 
 /**
@@ -205,6 +205,24 @@ class DriversController extends AppController {
            // $this->Driver->id = $this->request->data['id'];
             $this->Driver->id = $driver['Driver']['id'];
                // $this->request->data = $this->Driver->findById($this->request->data['id']);
+
+            if ($this->Driver->save($this->request->data)) {
+                $message = 'Driver Updated';
+            } else {
+                $message = 'Error';
+            }
+
+        }
+        else {
+            $message = 'Authentication Needed';
+        }
+        $this->set('message', $message);
+        $this->set('_serialize', array('message'));
+    }
+
+    public function updateById($id = null) {
+        if($this->request->data['key'] == "9c36c7108a73324100bc9305f581979071d45ee9"){
+            $this->Driver->id = $this->request->data['id'];
 
             if ($this->Driver->save($this->request->data)) {
                 $message = 'Driver Updated';

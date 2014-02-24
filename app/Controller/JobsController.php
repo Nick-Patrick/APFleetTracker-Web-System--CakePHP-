@@ -28,7 +28,7 @@ class JobsController extends AppController {
 
     public function beforeFilter(){
         parent::beforeFilter();
-       $this->Auth->allow('assignedJobsByDriverId');
+       $this->Auth->allow('assignedJobsByDriverId','updateActiveJob');
     }
 
 /**
@@ -211,7 +211,10 @@ class JobsController extends AppController {
      		);*/
 
 			$driverJobs = $this->Job->find('all', array(
-				'conditions' => array('driver_id' => $driverId)));
+				'conditions' => array(
+					array('driver_id' => $driverId)
+					)
+				));
 
      	
      		if($driverJobs == "[]") {
@@ -226,7 +229,28 @@ class JobsController extends AppController {
      	$this->set('_serialize', array('message'));
      }
 
+    public function updateActiveJob($job_id = null) {
 
+    	if($this->request->is('post')){
+
+        	if($this->request->data['key'] == "9c36c7108a73324100bc9305f581979071d45ee9"){
+        	   //$this->Job->id = $this->request->data['job_id'];
+        		$this->Job->id = $job_id;
+	
+        	    if ($this->Job->save($this->request->data)) {
+        	        $jobMessage = 'Job Updated';
+        	    } else {
+        	        $jobMessage = 'Error';
+        	    }
+	
+        	}
+        	else {
+        	    $jobMessage = 'Authentication Needed';
+        	}
+        	$this->set('jobMessage', $jobMessage);
+        	$this->set('_serialize', array('jobMessage'));
+        }
+    }
 
 }
 

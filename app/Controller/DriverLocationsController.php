@@ -15,6 +15,12 @@ class DriverLocationsController extends AppController {
  */
 	public $components = array('Paginator','RequestHandler');
 
+
+    public function beforeFilter(){
+        parent::beforeFilter();
+       $this->Auth->allow('addDriverLocation');
+    }
+
 /**
  * index method
  *
@@ -22,7 +28,11 @@ class DriverLocationsController extends AppController {
  */
 	public function index() {
 		$this->DriverLocation->recursive = 0;
-		$this->set('driverLocations', $this->Paginator->paginate());
+		//$this->set('driverLocations', $this->Paginator->paginate());
+		$this->set('driverLocations', $this->DriverLocation->find('all', array(
+			'order' => array('date_time_stamp' => 'desc')
+			)
+		));
         $this->set('_serialize',array('driverLocations'));
 	}
 
@@ -105,4 +115,23 @@ class DriverLocationsController extends AppController {
 			$this->Session->setFlash(__('The driver location could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
-	}}
+	}
+
+    public function addDriverLocation() {
+        if($this->request->data['key'] == "9c36c7108a73324100bc9305f581979071d45ee9"){
+
+            if ($this->DriverLocation->save($this->request->data)) {
+                $message = 'Driver ocation Added';
+            } else {
+                $message = 'Error';
+            }
+
+        }
+        else {
+            $message = 'Authentication Needed';
+        }
+        $this->set('message', $message);
+        $this->set('_serialize', array('message'));
+    }
+
+}

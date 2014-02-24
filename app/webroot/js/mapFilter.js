@@ -85,10 +85,12 @@ function getFilterVars(){
             var previousLocations = {};
             var locations = [];
             for (var j=0;j<checkedDrivers.length;j++){
-            var firstLocation = 0; //If first location == 0 then add current location. Else add previous location.
-                //Creates a location object for all active drivers - and all of there locations.
+                var firstLocation = 0; 
+
                 $.each(locationResult.driverLocations, function(i, v) {
                     if (v.DriverLocation.driver_id == checkedDrivers[j]) {
+                        //console.log(locationCount);
+                        //console.log(locationResult.driverLocations.length);
                         var location = {};
                         location.lat = v.DriverLocation.latitude;
                         location.lng = v.DriverLocation.longitude;
@@ -116,8 +118,7 @@ function getFilterVars(){
                 //Take off times so dates can be compared.
                 filterDate.setHours(0,0,0,0);
                 markerDate.setHours(0,0,0,0);
-                console.log("markerDate: " + markerDate);
-                console.log("filterDate: " + filterDate);
+ 
 
 
                 if(Date.parse(filterDate) == Date.parse(markerDate)){
@@ -171,7 +172,7 @@ function getFilterVars(){
                 }
 
             });
-            console.log(locations);
+         
 
         }
     });
