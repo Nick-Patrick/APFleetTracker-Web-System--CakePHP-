@@ -1,4 +1,4 @@
-<div id="secondary-nav-wrapper" class="large-11 medium-11 small-11 columns show-for-medium-up">
+<div id="secondary-nav-wrapper" class="large-11 medium-11 small-11 columns show-for-large-up">
     <nav id="secondary-nav" class="top-bar" data-topbar>
 
         <section class="top-bar-section">
@@ -19,80 +19,168 @@
 </div>
 
 
+ <div id="driver-content" class="row">
+            <div id="three-stat-box-wrapper" class="large-7 medium-12 small-12 columns">
+                <ul class="small-block-grid-3">
+                    <li class="stat-box"><ul><li class="stat-box-number"><?php echo count($availableVehicles); ?></li><li class="stat-box-desc">Available Vehicles</li></ul></li>
+                    <li class="stat-box"><ul><li class="stat-box-number"><?php echo count($activeVehicles); ?></li><li class="stat-box-desc">Active Vehicles</li></ul></li>
+                    <li class="stat-box"><ul><li class="stat-box-number"><?php echo count($completedJobsToday); ?></li><li class="stat-box-desc">Completed Jobs</li></ul></li>
+                </ul>
+
+<?php if(count($activeVehicles) == 0){ ?>
+
+<h4>No Active Vehicles</h4>
+
+<?php
+}
+else {
+?>
+<h4>Active Vehicles</h4>
+
+                    <table class="driver-data" width="100%">
+                    <tr>
+                        <th width="200">Vehicle</th>
+                        <th width="150">Reg Number</th>
+                        <th>Description</th>
+                        <th width="200"></th>
+                    </tr>
+                    <?php foreach($activeVehicles as $activeVehicle){ ?>
+                        <tr>
+                                <td><?php echo $activeVehicle['Vehicle']['name']; ?></td>
+                                <td><?php echo $activeVehicle['Vehicle']['reg_number']; ?></td>
+                                <td><?php echo $activeVehicle['Vehicle']['description']; ?></td>
+                                <td>
+                                    <a href="#" class="small button split">View Current Job <span data-dropdown="drop"></span></a><br>
+                                    <ul id="drop" class="f-dropdown" data-dropdown-content>
+                                        <li><a href="#">View Vehicle Activity</a></li>
+                                        <li><a href="#">Manage Vehicle</a></li>
+                                    </ul>
+                                </td>
+                        </tr>
+                    <?php } ?>
+
+                </table>
+
+<? } ?>
+
+<?php if(count($availableVehicles) == 0){ ?>
+
+<h4>No Available Vehicles</h4>
+
+<?php
+}
+else {
+?>
+
+                <h4>Available Vehicles</h4>
+
+                <table class="driver-data" width="100%">
+
+                    <tr>
+                        <th width="200">Vehicle</th>
+                        <th width="150">Reg Number</th>
+                        <th>Description</th>
+                        <th width="200"></th>
+                    </tr>
+                    <?php foreach($availableVehicles as $availableVehicle){ ?>
+                        <tr>
+                                <td><?php echo $availableVehicle['Vehicle']['name']; ?></td>
+                                <td><?php echo $availableVehicle['Vehicle']['reg_number']; ?></td>
+                                <td><?php echo $availableVehicle['Vehicle']['description']; ?></td>
+                                <td>
+                                    <a href="<?php echo $availableVehicle['Vehicle']['id'];?>" id="assignJobButton" data-reveal-id="assignJobModal" class="small button">Assign New Job</a><br>
+                                </td>
+                        </tr>
+                    <?php } ?>
+                    </table>
+
+     <? } ?>               
+
+             </div>
+
+            <div id="map_canvas_wrapper" class="large-5 columns show-for-large-up">
+                <?php echo $this->GoogleMap->map($map_options); ?>
+                
+                <?php
+                $i = 1;
+                    foreach($activeVehicleLocations as $activeVehicleLocation){
+                        if($activeVehicleLocation){
+                            $marker_options = array(
+                                'showWindow' => true,
+                                'windowText' => "<h5>" . $activeVehicleLocation['Vehicle']['first_name'] . " " . $activeVehicleLocation['Vehicle']['last_name'] . "</h5>" .
+                                                "<p>" . $activeVehicleLocation['Vehicle']['telephone'] . "</p>",
+                                'markerTitle' => $activeVehicleLocation['Vehicle']['first_name'] . " " . $activeVehicleLocation['Vehicle']['last_name'],
+                                'markerIcon' => 'truckMarker.png'
+                            );
+                            echo $this->GoogleMap->addMarker("map_canvas", $i, array(
+                                'latitude' => $activeVehicleLocation['VehicleLocation']['latitude'],
+                                'longitude' => $activeVehicleLocation['VehicleLocation']['longitude']),
+                                $marker_options
+                            );
+
+                            $i++;
+                        }
+                    } 
+               
+                ?>
+            </div>
 
 
+                          <!-- Assign Job to Driver / Vehicle Modal -->
+        <div id="assignJobModal" class="reveal-modal small" data-reveal>
+            <h3>Assign Job</h3> 
+            <form action="/apTracker/jobs/assign" id="JobAssignForm" method="post" accept-charset="utf-8" data-abide>
 
+            <input name="data[Vehicle][id]" type="hidden" class="chosenDriverName"/>
+            <hr/>
+            <div class="row">
+                    <div class="large-6 columns">
+                         <div class="name-field">
+                            <label for="PendingJobs">Pending Jobs: <small>required</small></label>
+                            <select class="assignJobFirstSelect" name="data[Job][id]" size="10" id="PendingJob">
+                               <?php
+                               foreach($pendingJobs as $pendingJob){ ?>
+                                   <option value="<?php echo $pendingJob['Job']['id'];?>"><?php echo $pendingJob['Job']['name'];?></option>
+                               <?php
+                               } ?>
 
+                            </select>                        
+                        </div>  
+                    </div>
 
+                    <div class="large-6 columns">
+                        <label for"DriverVehicleJobVehicleId">Available Vehicles: <small>required</small></label>
+                        <select class="assignJobSecondSelect" name="data[Driver][id]" size="10" id="AvailableVehicle">
+                               <?php
+                               foreach($availableDrivers as $availableDriver){ ?>
+                                   <option value="<?php echo $availableDriver['Driver']['id'];?>"><?php echo $availableDriver['Driver']['first_name'] . " " . $availableDriver['Driver']['last_name'];?></option>
+                               <?php
+                               } ?>
 
+                            </select>  
+                     
+                                <!--<a href="jobs/assign" id="modalJobAssignButton" class="assignJobToDriver button right disabled">Assign Job</a>-->
+                                 <?php echo $this->Form->submit(__('Assign Job', true), 
+                                    array('name' => 'assignJob', 'id' => 'modalJobAssignButton', 'class' => 'assignJobToDriver button right disabled')); 
+                                
+                                ?>
+                                <?php echo $this->form->end();?>
+                    </div>
+            </div>
+            
+               
+            <a class="close-reveal-modal">&#215;</a>
 
-
-
-
-
-
-
-
-
-<!--
-<div class="vehicles index">
-	<h2><?php echo __('Vehicles'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
-	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('name'); ?></th>
-			<th><?php echo $this->Paginator->sort('vehicle_type'); ?></th>
-			<th><?php echo $this->Paginator->sort('reg_number'); ?></th>
-			<th><?php echo $this->Paginator->sort('license_type'); ?></th>
-			<th><?php echo $this->Paginator->sort('crane'); ?></th>
-			<th><?php echo $this->Paginator->sort('status'); ?></th>
-			<th><?php echo $this->Paginator->sort('available'); ?></th>
-			<th><?php echo $this->Paginator->sort('created'); ?></th>
-			<th><?php echo $this->Paginator->sort('modified'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
-	<?php foreach ($vehicles as $vehicle): ?>
-	<tr>
-		<td><?php echo h($vehicle['Vehicle']['id']); ?>&nbsp;</td>
-		<td><?php echo h($vehicle['Vehicle']['name']); ?>&nbsp;</td>
-		<td><?php echo h($vehicle['VehicleType']['vehicle_type']); ?>&nbsp;</td>
-		<td><?php echo h($vehicle['Vehicle']['reg_number']); ?>&nbsp;</td>
-		<td><?php echo h($vehicle['LicenseType']['license_type']); ?>&nbsp;</td>
-		<td><?php echo h($vehicle['Vehicle']['crane']); ?>&nbsp;</td>
-		<td><?php echo h($vehicle['Vehicle']['status']); ?>&nbsp;</td>
-		<td><?php echo h($vehicle['Vehicle']['available']); ?>&nbsp;</td>
-		<td><?php echo h($vehicle['Vehicle']['created']); ?>&nbsp;</td>
-		<td><?php echo h($vehicle['Vehicle']['modified']); ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $vehicle['Vehicle']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $vehicle['Vehicle']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $vehicle['Vehicle']['id']), null, __('Are you sure you want to delete # %s?', $vehicle['Vehicle']['id'])); ?>
-		</td>
-	</tr>
-<?php endforeach; ?>
-	</table>
-	<p>
-	<?php
-	echo $this->Paginator->counter(array(
-	'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-	));
-	?>	</p>
-	<div class="paging">
-	<?php
-		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-	?>
-	</div>
+        </div>
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Vehicle'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Driver Vehicle Jobs'), array('controller' => 'driver_vehicle_jobs', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Driver Vehicle Job'), array('controller' => 'driver_vehicle_jobs', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Vehicle Daily Activities'), array('controller' => 'vehicle_daily_activities', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Vehicle Daily Activity'), array('controller' => 'vehicle_daily_activities', 'action' => 'add')); ?> </li>
-	</ul>
-</div>
--->
+
+
+	
+
+
+
+
+
+
+
+

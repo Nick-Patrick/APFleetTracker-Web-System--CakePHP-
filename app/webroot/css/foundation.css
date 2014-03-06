@@ -1,3 +1,4 @@
+
 @import url("//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700");
 @import url("http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500");
 @import url("http://fonts.googleapis.com/css?family=Josefin+Sans:100,300,400,600");
@@ -5208,10 +5209,14 @@ Left Navigation Sidebar
 #sidebar-navigation-wrapper {
     padding-right:0;
     padding-left:0;
+    position: absolute;
+height: 100%;
+background:url('/apTracker/img/squared_metal.png');
+background-repeat:repeat;
 }
 
 #sidebar-navigation {
-    opacity:0.8;
+    opacity:0.6;
 }
 
 #sidebar-navigation ul {
@@ -5304,7 +5309,9 @@ ul.small-block-grid-3 {
 
 
 .small-block-grid-3 li.stat-box {
-    background:#333333;
+  background:url('/apTracker/img/asfalt.png');
+  background-repeat:repeat;
+   /* background:#333333;*/
     height:180px;
     color:white;
    padding:10px;
@@ -5316,7 +5323,7 @@ ul.small-block-grid-3 {
     text-decoration: none;
     list-style: none;
     text-align: center;
-    font-family:calibri,century gothic,calibri,arial;
+    font-family:candara,calibri,century gothic,calibri,arial;
 }
 
 li.stat-box ul {
@@ -5334,7 +5341,7 @@ li.stat-box ul {
 
 .small-block-grid-3 li.stat-box li:last-child {
     font-size:0.85em;
-    color:#9B9B9B;
+    color:#C5BFBF;
     line-height:7.5;
     text-align: right;
 
@@ -5354,6 +5361,7 @@ End Three Stat Boxes
 
 #driver-content {
     margin:0;
+    max-width:100%;
 }
 
 
@@ -5551,9 +5559,11 @@ border-right:1px solid #e2e2e2;
   background:#fff;
 }
 
-.openingTimesTable tr:first-child, td:first-child {
+.openingTimesTable tr:first-child {
   font-weight:900;
 }
+
+
 
 .openingTimesTable td {
   background:#fff;
@@ -5659,4 +5669,113 @@ li.ui-timepicker-selected .ui-timepicker-duration,
 
 .clear-both {
   clear:both;
+}
+
+#three-stat-box-wrapper h4 {
+  padding:0.5em;
+}
+
+#three-stat-box-wrapper table {
+  border:0;
+}
+
+#three-stat-box-wrapper table th{
+  text-align:left;
+}
+
+#three-stat-box-wrapper table a {
+  float:right;
+  vertical-align: center;
+}
+
+html, body {
+  height:100%;
+}
+
+/** Start Login **/
+
+#loginBackground {
+  width:100%;
+  height:100%;
+  background:url('/apTracker/img/squared_metal.png');
+  background-repeat:repeat;
+}
+
+#loginBackground #main-content {
+  box-shadow: 0px 0px 0px;
+  margin-top:20px;
+}
+
+#loginBackground #main {
+  height:100%;
+}
+
+#loginBackground #mainRow {
+  width:80%;
+  height:100%;
+  padding-left:15%;
+  padding-right:15%;
+  padding-top:2em;
+  padding-bottom:2em;
+  margin:0 auto;
+  background:#fff;
+  text-align:center;
+  border:0 !important;
+}
+
+#loginBackground #mainRow input[type="text"]{
+  margin-top:20px;
+}
+
+#loginBackground #mainRow input[type="text"], input[type="password"] {
+  font-size:26px;
+  padding-top:30px;
+  padding-bottom:30px;
+  padding-left:10px;
+}
+
+#loginBackground #mainRow input[type="submit"] {
+  font-size:24px;
+}
+/** End Login **/
+
+.jobs form {
+  padding-top:3%;
+}
+
+.drivers form {
+  padding-top:3%;
+}
+
+.vehicles form {
+  padding-top:3%;
+}
+
+nav.tab-bar {
+  background:#444;
+  border-top:1px solid #2795B6;
+}
+
+table {
+  padding:1%;
+}
+
+table.driver-data th {
+  background:#DCE6E9;
+  font-family:"Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight:700;
+}
+
+#driver-content h4 {
+  padding-left:1.5%;
+  padding-top:1.5%;
+}
+
+.button.success {
+  background-color:#6C7A7C;
+}
+
+.button.alert {
+  background-color:#223747;
 }

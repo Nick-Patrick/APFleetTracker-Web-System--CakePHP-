@@ -1,5 +1,5 @@
 <?php echo $this->Html->script('viewGoogleMap'); ?>
-<div id="secondary-nav-wrapper" class="large-11 medium-11 small-11 columns show-for-medium-up">
+<div id="secondary-nav-wrapper" class="large-11 medium-11 small-11 columns show-for-large-up">
     <nav id="secondary-nav" class="top-bar" data-topbar>
 
         <section class="top-bar-section">
@@ -21,46 +21,20 @@
 </div>
 
         <div id="driver-content" class="row">
-            <div id="three-stat-box-wrapper" class="large-7 medium-6 small-12 columns">
+            <div id="three-stat-box-wrapper" class="large-7 medium-12 small-12 columns">
                 <ul class="small-block-grid-3">
                     <li class="stat-box"><ul><li class="stat-box-number"><?php echo count($availableDrivers); ?></li><li class="stat-box-desc">Available Drivers</li></ul></li>
                     <li class="stat-box"><ul><li class="stat-box-number"><?php echo count($activeDrivers); ?></li><li class="stat-box-desc">Active Drivers</li></ul></li>
-                    <li class="stat-box"><ul><li class="stat-box-number">10</li><li class="stat-box-desc">Completed Jobs</li></ul></li>
+                    <li class="stat-box"><ul><li class="stat-box-number"><?php echo count($completedJobsToday); ?></li><li class="stat-box-desc">Completed Jobs</li></ul></li>
                 </ul>
 
-                <h4>Available Drivers</h4>
-
-                <table width="100%">
-
+<h4>Active Drivers</h4>
+                    <table class="driver-data" width="100%">
                     <tr>
-                        <th>Driver Name</th>
-                        <th>License Limit</th>
+                        <th width="200">Driver</th>
+                        <th width="150">License</th>
                         <th>Mobile</th>
-                        <th>Actions</th>
-                    </tr>
-                    <?php foreach($availableDrivers as $available){ ?>
-                        <tr>
-                                <td><?php echo $available['Driver']['first_name'] . " " . $available['Driver']['last_name']; ?></td>
-                                <td><?php echo $available['LicenseType']['license_type']; ?></td>
-                                <td><?php echo $available['Driver']['telephone']; ?></td>
-                                <td>
-                                    <a href="#" class="small button split">Assign New Job <span data-dropdown="drop"></span></a><br>
-                                    <ul id="drop" class="f-dropdown" data-dropdown-content>
-                                        <li><a href="#">View Driver Activity</a></li>
-                                        <li><a href="#">Manage Driver</a></li>
-                                    </ul>
-                                </td>
-                        </tr>
-                    <?php } ?>
-                    </table>
-
-                    <h4>Active Drivers</h4>
-                    <table width="100%">
-                    <tr>
-                        <th>Driver Name</th>
-                        <th>License Limit</th>
-                        <th>Mobile</th>
-                        <th>Actions</th>
+                        <th width="200"></th>
                     </tr>
                     <?php foreach($activeDrivers as $active){ ?>
                         <tr>
@@ -68,20 +42,43 @@
                                 <td><?php echo $active['LicenseType']['license_type']; ?></td>
                                 <td><?php echo $active['Driver']['telephone']; ?></td>
                                 <td>
-                                    <a href="#" class="small button split">View Current Job <span data-dropdown="drop"></span></a><br>
-                                    <ul id="drop" class="f-dropdown" data-dropdown-content>
-                                        <li><a href="#">View Driver Activity</a></li>
-                                        <li><a href="#">Manage Driver</a></li>
-                                    </ul>
+                                    <a href="" class="small button expand">View Current Job</a><br>
+                                    
                                 </td>
                         </tr>
                     <?php } ?>
 
                 </table>
 
+                <h4>Available Drivers</h4>
+
+                <table class="driver-data" width="100%">
+
+                    <tr>
+                        <th width="200">Driver</th>
+                        <th width="150">License</th>
+                        <th>Mobile</th>
+                        <th width="200"></th>
+                    </tr>
+                    <?php foreach($availableDrivers as $available){ ?>
+                        <tr>
+                                <td><?php echo $available['Driver']['first_name'] . " " . $available['Driver']['last_name']; ?></td>
+                                <td><?php echo $available['LicenseType']['license_type']; ?></td>
+                                <td><?php echo $available['Driver']['telephone']; ?></td>
+                                <td>
+                                    
+                                    <a href="<?php echo $available['Driver']['id'];?>" id="assignJobButton" data-reveal-id="assignJobModal" class="small button expand">Assign New Job</a><br>
+                                    
+                                </td>
+                        </tr>
+                    <?php } ?>
+                    </table>
+
+                    
+
              </div>
 
-            <div id="map_canvas_wrapper" class="large-5 medium-6 columns show-for-medium-up">
+            <div id="map_canvas_wrapper" class="large-5 columns show-for-large-up">
                 <?php echo $this->GoogleMap->map($map_options); ?>
                 
                 <?php
@@ -107,71 +104,56 @@
                
                 ?>
             </div>
+
+
+                   <!-- Assign Job to Driver / Vehicle Modal -->
+        <div id="assignJobModal" class="reveal-modal small" data-reveal>
+            <h3>Assign Job</h3> 
+            <form action="/apTracker/jobs/assign" id="JobAssignForm" method="post" accept-charset="utf-8" data-abide>
+
+            <input name="data[Driver][id]" type="hidden" class="chosenDriverName"/>
+            <hr/>
+            <div class="row">
+                    <div class="large-6 columns">
+                         <div class="name-field">
+                            <label for="PendingJobs">Pending Jobs: <small>required</small></label>
+                            <select class="assignJobFirstSelect" name="data[Job][id]" size="10" id="PendingJob">
+                               <?php
+                               foreach($pendingJobs as $pendingJob){ ?>
+                                   <option value="<?php echo $pendingJob['Job']['id'];?>"><?php echo $pendingJob['Job']['name'];?></option>
+                               <?php
+                               } ?>
+
+                            </select>                        
+                        </div>  
+                    </div>
+
+                    <div class="large-6 columns">
+                        <label for"DriverVehicleJobVehicleId">Available Vehicles: <small>required</small></label>
+                        <select class="assignJobSecondSelect" name="data[Vehicle][id]" size="10" id="AvailableVehicle">
+                               <?php
+                               foreach($availableVehicles as $availableVehicle){ ?>
+                                   <option value="<?php echo $availableVehicle['Vehicle']['id'];?>"><?php echo $availableVehicle['Vehicle']['name'];?></option>
+                               <?php
+                               } ?>
+
+                            </select>  
+                     
+                                <!--<a href="jobs/assign" id="modalJobAssignButton" class="assignJobToDriver button right disabled">Assign Job</a>-->
+                                 <?php echo $this->Form->submit(__('Assign Job', true), 
+                                    array('name' => 'assignJob', 'id' => 'modalJobAssignButton', 'class' => 'assignJobToDriver button right disabled')); 
+                                
+                                ?>
+                                <?php echo $this->form->end();?>
+                    </div>
+            </div>
+            
+               
+            <a class="close-reveal-modal">&#215;</a>
+
         </div>
 
+</div>
 
-	<table cellpadding="0" cellspacing="0">
-	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('Driver_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('license_type'); ?></th>
-			<th><?php echo $this->Paginator->sort('available'); ?></th>
-			<th><?php echo $this->Paginator->sort('last_logged_in'); ?></th>
-			<th><?php echo $this->Paginator->sort('created'); ?></th>
-			<th><?php echo $this->Paginator->sort('modified'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
-	<?php foreach ($drivers as $driver): ?>
-	<tr>
-		<td><?php echo h($driver['Driver']['id']); ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($driver['Driver']['id'], array('controller' => 'Drivers', 'action' => 'view', $driver['Driver']['id'])); ?>
-		</td>
-		<td><?php echo h($driver['LicenseType']['license_type']); ?>&nbsp;</td>
-		<td><?php echo h($driver['Driver']['available']); ?>&nbsp;</td>
-		<td><?php echo h($driver['Driver']['last_logged_in']); ?>&nbsp;</td>
-		<td><?php echo h($driver['Driver']['created']); ?>&nbsp;</td>
-		<td><?php echo h($driver['Driver']['modified']); ?>&nbsp;</td>
-        <td><?php echo h($driver['Driver']['first_name']); ?>&nbsp;</td>
-        <td><?php echo h($driver['Driver']['last_name']); ?> &nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $driver['Driver']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $driver['Driver']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $driver['Driver']['id']), null, __('Are you sure you want to delete # %s?', $driver['Driver']['id'])); ?>
-		</td>
-	</tr>
-<?php endforeach; ?>
-	</table>
-	<p>
-	<?php
-	echo $this->Paginator->counter(array(
-	'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-	));
-	?>	</p>
-	<div class="paging">
-	<?php
-		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-	?>
-	</div>
-</div>
-<!--
-<div class="actions">
-    <h3><?php echo __('Actions'); ?></h3>
-    <ul>
-        <li><?php echo $this->Html->link(__('View Map'), array('action' => 'viewMap')); ?> </li>
-        <li><?php echo $this->Html->link(__('New Driver'), array('action' => 'add')); ?></li>
-        <li><?php echo $this->Html->link(__('List Drivers'), array('controller' => 'Drivers', 'action' => 'index')); ?> </li>
-        <li><?php echo $this->Html->link(__('New Driver'), array('controller' => 'Drivers', 'action' => 'add')); ?> </li>
-        <li><?php echo $this->Html->link(__('List Driver Daily Activities'), array('controller' => 'driver_daily_activities', 'action' => 'index')); ?> </li>
-        <li><?php echo $this->Html->link(__('New Driver Daily Activity'), array('controller' => 'driver_daily_activities', 'action' => 'add')); ?> </li>
-        <li><?php echo $this->Html->link(__('List Driver Locations'), array('controller' => 'driver_locations', 'action' => 'index')); ?> </li>
-        <li><?php echo $this->Html->link(__('New Driver Location'), array('controller' => 'driver_locations', 'action' => 'add')); ?> </li>
-        <li><?php echo $this->Html->link(__('List Driver Vehicle Jobs'), array('controller' => 'driver_vehicle_jobs', 'action' => 'index')); ?> </li>
-        <li><?php echo $this->Html->link(__('New Driver Vehicle Job'), array('controller' => 'driver_vehicle_jobs', 'action' => 'add')); ?> </li>
-        <li><?php echo $this->Html->link(__('List Job Signatures'), array('controller' => 'job_signatures', 'action' => 'index')); ?> </li>
-        <li><?php echo $this->Html->link(__('New Job Signature'), array('controller' => 'job_signatures', 'action' => 'add')); ?> </li>
-    </ul>
-</div>
--->
+
+	

@@ -1,4 +1,4 @@
-<div id="secondary-nav-wrapper" class="large-11 medium-11 small-11 columns show-for-medium-up">
+<div id="secondary-nav-wrapper" class="large-11 medium-11 small-11 columns show-for-large-up">
     <nav id="secondary-nav" class="top-bar" data-topbar>
 
         <section class="top-bar-section">
@@ -19,20 +19,21 @@
 
 <div class="full-width-content">
     <h2>Manage Jobs <?php echo $this->Html->link(__('Create New Job'), array('controller' => 'jobs','action' => 'addJob'), array('class' => 'small button right')); ?></h2>
-    <table width="100%">
+    <table class="driver-data" width="100%">
         <tr>
-            <th>Name</th>
-            <th>Collection</th>
-            <th>Location</th>
-            <th>Status</th>
+            <th width="200">Name</th>
+            <th width="300">Details</th>
+            <th width="200">Status</th>
+            <th width="200">Assigned To:</th>
+            <th width="100"></th>
         </tr>
         <?php
             foreach($jobs as $job){ ?>
                 <tr>
                 <td><?php echo $job['Job']['name'];?></td>
-                <td><?php echo $job['Job']['collection_id'];?></td>
-                <td><?php echo debug($dropoffPoint);?></td>
+                <td><?php echo $job['Job']['additional_details'];?></td>
                 <td><?php echo $job['Job']['status'];?></td>
+                <td><?php echo $job['Driver']['first_name'] . " " . $job['Driver']['last_name'];?></td>
                 <td style="text-align:right;">
                     <?php echo $this->Html->link(__('Edit'), array('controller' => 'Jobs', 'action' => 'edit', $job['Job']['id']), array('class' => 'button success small')); ?>
                     <?php echo $this->Form->postLink(__('Delete'), array('controller' => 'Jobs', 'action' => 'delete', $job['Job']['id']), array('class' => 'button small alert'),

@@ -102,7 +102,7 @@ class Driver extends AppModel {
 	}
 
 	public function getAvailableDrivers(){
-		$conditions = array('Driver.Available' => 'Available');
+		$conditions = array('Driver.Available' => array('Available','Assigned'));
 		return $this->find('all', compact('conditions'));
 	}
 

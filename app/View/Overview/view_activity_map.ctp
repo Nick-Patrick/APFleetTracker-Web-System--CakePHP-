@@ -1,4 +1,5 @@
-<div id="secondary-nav-wrapper" class="large-11 medium-11 small-11 columns show-for-medium-up">
+
+<div id="secondary-nav-wrapper" class="large-11 medium-11 small-11 columns show-for-large-up">
     <nav id="secondary-nav" class="top-bar" data-topbar>
 
         <section class="top-bar-section">
@@ -20,9 +21,9 @@
 <div class="large-2 columns">
     <a href="#" data-reveal-id="modalPopup" id="mapFilterButton" class="small button">FILTER</a>
 </div>
-<div id="map_canvas_wrapper_full_screen" class="large-12 medium-12 columns">
+<div id="map_canvas_wrapper_full_screen" class="large-12 medium-12 small-12 columns">
 
-    <div id="map_canvas" style="width:100%;height:700px;" class="mapping"></div>
+    <div id="map_canvas" style="width:100%;height:700px;" class="map"></div>
 
 
 </div>
@@ -49,7 +50,7 @@
                                <li>
                                    <input name="checkedDrivers" id="<?php echo $activeDriver['Driver']['id']; ?>" value="<?php echo $activeDriver['Driver']['id']; ?>" type="checkbox" checked>
                                         <label for="<?php echo $activeDriver['Driver']['id']; ?>">
-                                             <?php echo $activeDriver['Driver']['first_name'] . " " . $activeDriver['Driver']['last_name'] . "    |    Collection Point    |    Dropoff Point"; ?>
+                                             <?php echo $activeDriver['Driver']['first_name'] . " " . $activeDriver['Driver']['last_name']; ?>
                                         </label>
                                    </input>
 
@@ -106,5 +107,9 @@
     <a class="close-reveal-modal">&#215;</a>
 </div>
 
-<?php echo $this->Html->script('mapFilter');?>
+<?php 
 
+
+echo $this->Html->script('mapFilter');
+
+?>

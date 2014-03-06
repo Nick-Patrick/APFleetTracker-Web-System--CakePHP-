@@ -1,4 +1,4 @@
-<div id="secondary-nav-wrapper" class="large-11 medium-11 small-11 columns show-for-medium-up">
+<div id="secondary-nav-wrapper" class="large-11 medium-11 small-11 columns show-for-large-up">
     <nav id="secondary-nav" class="top-bar" data-topbar>
 
         <section class="top-bar-section">
@@ -20,14 +20,15 @@
 
 <div class="full-width-content">
     <h2>Manage Drivers <a href="#" id="addDriverButton" data-reveal-id="modalPopup" class="button right">Add New Driver</a></h2>
-    <table width="100%">
+    <table class="driver-data" width="100%">
         <tr>
-            <th>Driver</th>
-            <th>License Type</th>
-            <th>Telephone</th>
-            <th>Email</th>
-            <th>Created</th>
-            <th>Last Logged In</th>
+            <th width="150">Driver</th>
+            <th width="150">License Type</th>
+            <th width="200">Telephone</th>
+            <th width="150">Email</th>
+            <th width="100">Created</th>
+            <th width="100">Last Logged In</th>
+            <th width="200"></th>
         </tr>
         <?php
             foreach($drivers as $driver){ ?>
@@ -49,6 +50,8 @@
             }
         ?>
     </table>
+
+
     <div id="modalPopup" class="reveal-modal medium" data-reveal>
         <h3>Add Driver</h3>
         <hr/>

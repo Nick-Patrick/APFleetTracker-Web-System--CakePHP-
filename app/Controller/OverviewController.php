@@ -39,7 +39,7 @@ class OverviewController extends AppController {
      * Other Models
      * User
      */
-    var $uses = array('Driver','User','DriverLocation');
+    var $uses = array('Driver','User','DriverLocation','Job');
 
 
     /**
@@ -61,13 +61,21 @@ class OverviewController extends AppController {
             ));
 
         }
+        $this->set('activeDrivers', $activeDrivers);
         $this->set('activeDriverLocations', $activeDriverLocations);
+
+        $todaysDate = date('Y-m-d');
+        $completedJobsToday = $this->Job->getCompletedJobsByDay($todaysDate);
+        $this->set('completedJobsToday',$completedJobsToday);
+
+        $activeJobs = $this->Job->getActiveJobs();
+        $this->set('activeJobs', $activeJobs);
 
         //Default Google Map Config
         $map_options = array(
             'id' => 'map_canvas',
             'width' => '100%',
-            'height' => '700px',
+            'height' => '800px',
             'style' => '',
             'zoom' => 6,
             'type' => 'ROADMAP',
@@ -91,11 +99,28 @@ class OverviewController extends AppController {
                 'conditions' => array('DriverLocation.driver_id' => $activeDriver['Driver']['id']),
                 'order' => array('DriverLocation.date_time_stamp' => 'desc')
             ));
-
+            
         }
 
         $this->set('activeDrivers', $activeDrivers);
         $this->set('activeDriverLocations', $activeDriverLocations);
+
+        $availableDrivers = $this->Driver->getAvailableDrivers();
+
+        $availableDriverLocations[] = array();        
+
+        foreach($availableDrivers as $availableDriver){
+            $availableDriverLocations[] = $this->DriverLocation->find('first', array(
+                'conditions' => array('DriverLocation.driver_id' => $availableDriver['Driver']['id']),
+                'order' => array('DriverLocation.date_time_stamp' => 'desc')
+            ));   
+        }
+
+        $this->set('availableDrivers', $availableDrivers);
+        $this->set('availableDriverLocations', $availableDriverLocations);
+
+        $completedJobs = $this->Job->getCompletedJobs();
+        $this->set('completedJobs', $completedJobs);
 
         //Default Google Map Config
         $map_options = array(

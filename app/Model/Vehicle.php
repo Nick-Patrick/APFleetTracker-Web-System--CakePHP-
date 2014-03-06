@@ -65,4 +65,21 @@ class Vehicle extends AppModel {
 		)
 	);
 
+	public function getActiveVehicles(){
+		$conditions = array('Vehicle.Available' => 'Active');
+		 return $this->find('all', compact('conditions'));
+	}
+
+	public function getAvailableVehicles(){
+		$conditions = array(
+			array('Vehicle.Available' => array('Available','Assigned'))
+		);
+		return $this->find('all', compact('conditions'));
+	}
+
+	public function getUnavailableVehicles(){
+		$conditions = array('Vehicle.Available' => 'Inactive');
+		return $this->find('all', compact('conditions'));
+	}
+
 }

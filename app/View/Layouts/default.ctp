@@ -17,7 +17,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = __d('cake_dev', 'APTracker');
+$cakeDescription = __d('cake_dev', 'APTrackers');
 ?>
 <!DOCTYPE html>
 <html lang="en-GB">
@@ -90,43 +90,52 @@ $cakeDescription = __d('cake_dev', 'APTracker');
 </nav>
 
 <section role="main">
-    <div id="mainRow" class="row">
-        <div id="sidebar-navigation-wrapper" class="large-1 medium-1 small-1 columns">
-            <div id="sidebar-navigation" class="show-for-large-up">
-            <ul class="side-nav">
-                <li><h5>MENU</h5></li>
-                <li><?php echo $this->Html->link(__('Overview'), array('controller' => 'overview', 'action' => 'index')); ?> </li>
-                <li><?php echo $this->Html->link(__('Drivers'), array('controller' => 'drivers', 'action' => 'index')); ?> </li>
-                <li><?php echo $this->Html->link(__('Vehicles'), array('controller' => 'vehicles', 'action' => 'index')); ?> </li>
-                <li><?php echo $this->Html->link(__('Jobs'), array('controller' => 'jobs', 'action' => 'index')); ?> </li>
-                <li><?php echo $this->Html->link(__('Packages'), array('controller' => 'packages', 'action' => 'index')); ?></li>
-                <li><a href="#">Extras</a></li>
-            </ul>
-            </div>
-            <div class="show-for-medium-down">
-                <ul class="side-nav">
-                    <li><?php echo $this->Html->link(__('O'), array('controller' => 'overview', 'action' => 'index')); ?></li>
-                    <li><?php echo $this->Html->link(__('D'), array('controller' => 'drivers', 'action' => 'index')); ?> </li>
-                    <li><?php echo $this->Html->link(__('V'), array('controller' => 'vehicles', 'action' => 'index')); ?> </li>
-                    <li><?php echo $this->Html->link(__('J'), array('controller' => 'jobs', 'action' => 'index')); ?> </li>
-                    <li><?php echo $this->Html->link(__('P'), array('controller' => 'packages', 'action' => 'index')); ?></li>
-                    <li><a href="#">E</a></li>
-                </ul>
-            </div>
+
+ <div class="off-canvas-wrap">
+             <div class="inner-wrap">
+                <nav class="tab-bar">
+                    <section class="left-small">
+                      <a class="left-off-canvas-toggle menu-icon" ><span></span></a>
+                    </section>
+                
+                    <section class="middle tab-bar-section">
+                      <h1 class="title"></h1>
+                    </section>
+                
+                   
+                 </nav>
+                
+                <aside class="left-off-canvas-menu">
+                    <ul class="off-canvas-list">
+                      <li><label>Home</label></li>
+                      <li><?php echo $this->Html->link(__('Overview'), array('controller' => 'overview', 'action' => 'index')); ?></li>
+                      <li><?php echo $this->Html->link(__('Activity'), array('controller' => 'overview', 'action' => 'viewActivityMap')); ?></li>
+                      <li><label>Drivers</label></li>
+                      <li><?php echo $this->Html->link(__('Overview'), array('controller' => 'drivers', 'action' => 'index')); ?></li>
+                      <li><?php echo $this->Html->link(__('Manage'), array('controller' => 'drivers', 'action' => 'manage')); ?></li>
+                      <li><label>Jobs</label></li>
+                      <li><?php echo $this->Html->link(__('Overview'), array('controller' => 'jobs', 'action' => 'index')); ?></li>
+                      <li><?php echo $this->Html->link(__('Manage'), array('controller' => 'jobs', 'action' => 'manage')); ?></li>
+                      <li><label>Vehicles</label><li>
+                      <li><?php echo $this->Html->link(__('Overview'), array('controller' => 'vehicles', 'action' => 'index')); ?></li>
+                      <li><?php echo $this->Html->link(__('Manage'), array('controller' => 'vehicles', 'action' => 'manage')); ?></li>
+                      <li><label>Extras</label></li>
+                    </ul>
+                </aside>
+                
+                
+                
+                <section class="main-section">
+                    <section>
+                         <?php echo $this->Session->flash(); ?>
+                         <?php echo $this->fetch('content'); ?>
+                     </section>              
+                </section>
+             
+            <a class="exit-off-canvas"></a>
+
+         </div>
         </div>
-
-
-
-
-        <div id="main-content" class="large-11 medium-11 small-11 columns">
-
-            <section>
-            <?php echo $this->Session->flash(); ?>
-            <?php echo $this->fetch('content'); ?>
-            </section>
-        </div>
-    </div>
-
 
 </section>
 

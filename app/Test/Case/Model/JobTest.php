@@ -89,6 +89,18 @@ class JobTest extends CakeTestCase {
 		
 	}
 
+	public function testCompletedJobsByDay(){
+		$result = $this->Job->getCompletedJobs();
+
+
+		$expected = array(
+			'0' => array()
+		);
+
+		$this->assertEqual($expected, $result);
+
+	}
+
 /**
  * tearDown method
  *

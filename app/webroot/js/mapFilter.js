@@ -27,14 +27,13 @@ $(document).ready(function(){
     $('#modalApplyButton').click(function(){
        getFilterVars();
     });
-
     getFilterVars();
 });
 
 
-
 //Update map with new filters.
 function getFilterVars(){
+    console.log("getFilterVars");
     $('#modalPopup').addClass('close-reveal-modal');
 
     var checkedDrivers = $('input[name=checkedDrivers]:checked').map(function(){
@@ -71,7 +70,7 @@ function getFilterVars(){
     else {
         plotRouteTaken = "No";
     }
-
+    
     $.ajax({
        type: 'GET',
         async: true,
@@ -150,7 +149,7 @@ function getFilterVars(){
                     }
                     else {
                         if(plotRouteTaken == "Yes"){
-                            markerIcon = "/apTracker/img/truckMarkerPrevLoc.png";
+                            markerIcon = "/apTracker/img/measleBlue.png";
                             var contentString = "<h4>" + v.firstName + " " + v.lastName + "</h4>" +
                                                 "<h5><small>" + v.timestamp + "</small></h5>";
                             var infowindow = new google.maps.InfoWindow({
@@ -175,7 +174,9 @@ function getFilterVars(){
          
 
         }
+
     });
+
 }
 
 function clearMapMarkers(){

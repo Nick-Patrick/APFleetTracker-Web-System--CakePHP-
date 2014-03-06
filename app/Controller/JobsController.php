@@ -39,6 +39,43 @@ class JobsController extends AppController {
 	public function index() {
 		$this->Job->recursive = 0;
 		$this->set('jobs', $this->Paginator->paginate());
+
+		$activeJobs = $this->Job->getActiveJobs();
+		$assignedJobs = $this->Job->getAssignedJobs();
+		$pendingJobs = $this->Job->getPendingJobs();
+
+		$this->set('activeJobs',$activeJobs);
+		$this->set('assignedJobs', $assignedJobs);
+		$this->set('pendingJobs', $pendingJobs);
+
+        $activeDrivers = $this->Driver->getActiveDrivers();
+		$activeDriverLocations[] = array();
+
+        foreach($activeDrivers as $activeDriver){
+            $activeDriverLocations[] = $this->Driver->DriverLocation->find('first', array(
+                'conditions' => array('DriverLocation.driver_id' => $activeDriver['Driver']['id']),
+                'order' => array('DriverLocation.date_time_stamp' => 'desc')
+            ));
+        }
+        
+        $this->set('activeDriverLocations', $activeDriverLocations);
+
+
+    //Default Google Map Config
+        $map_options = array(
+            'id' => 'map_canvas',
+            'width' => '100%',
+            'height' => '800px',
+            'style' => '',
+            'zoom' => 6,
+            'type' => 'ROADMAP',
+            'custom' => null,
+            'localize' => true,
+            'marker' => false
+        );
+
+        $this->set('map_options', $map_options);
+
 	}
 
 /**
@@ -91,6 +128,27 @@ class JobsController extends AppController {
 			return $this->redirect(array('action' => 'index'));
 
 		}
+	}
+
+	public function assign(){
+
+			$this->Job->id = $this->request->data['Job']['id'];
+			$this->Driver->id = $this->request->data['Driver']['id'];
+			$this->Vehicle->id = $this->request->data['Vehicle']['id'];
+			$this->Job->saveField('status','Assigned');
+			$this->Job->saveField('driver_id', $this->Driver->id);
+			//$this->Job->saveAssociated($data);
+			$this->request->data['DriverVehicleJob']['job_id'] = $this->Job->id;
+			$this->request->data['DriverVehicleJob']['vehicle_id'] = $this->Vehicle->id;
+			$this->request->data['DriverVehicleJob']['driver_id'] = $this->Driver->id;
+			$this->Job->DriverVehicleJob->save($this->request->data);
+			$this->Driver->id = $this->request->data['DriverVehicleJob']['driver_id'];
+			$this->Vehicle->id = $this->request->data['DriverVehicleJob']['vehicle_id'];
+			$this->Driver->saveField('available','Assigned');
+			$this->Vehicle->saveField('available','Assigned');
+		
+			return $this->redirect($this->referer());
+
 	}
 
 /**

@@ -34,7 +34,7 @@ class DriversController extends AppController {
  * Other Models
  * Driver
  */
-    var $uses = array('Driver','User','DriverLocation','Group','LicenseType','Vehicle');
+    var $uses = array('Driver','User','DriverLocation','Group','LicenseType','Vehicle','Job');
 
 
     /**
@@ -49,6 +49,15 @@ class DriversController extends AppController {
         $activeDrivers = $this->Driver->getActiveDrivers();
         $availableDrivers = $this->Driver->getAvailableDrivers();
         $unavailableDrivers = $this->Driver->getUnavailableDrivers();
+        $pendingJobs = $this->Job->getPendingJobs();
+        $this->set('pendingJobs',$pendingJobs);
+        $availableVehicles = $this->Vehicle->getAvailableVehicles();
+        $this->set('availableVehicles',$availableVehicles);
+
+        $todaysDate = date('Y-m-d');
+
+        $completedJobsToday = $this->Job->getCompletedJobsByDay($todaysDate);
+        $this->set('completedJobsToday',$completedJobsToday);
 
         $this->set('activeDrivers', $activeDrivers);
         $this->set('availableDrivers', $availableDrivers);
@@ -69,7 +78,7 @@ class DriversController extends AppController {
         $map_options = array(
             'id' => 'map_canvas',
             'width' => '100%',
-            'height' => '700px',
+            'height' => '800px',
             'style' => '',
             'zoom' => 6,
             'type' => 'ROADMAP',

@@ -121,7 +121,7 @@ class DriverLocationsController extends AppController {
         if($this->request->data['key'] == "9c36c7108a73324100bc9305f581979071d45ee9"){
 
             if ($this->DriverLocation->save($this->request->data)) {
-                $message = 'Driver ocation Added';
+                $message = 'Driver Location Added';
             } else {
                 $message = 'Error';
             }
@@ -130,7 +130,7 @@ class DriverLocationsController extends AppController {
         else {
             $message = 'Authentication Needed';
         }
-        $this->set('message', $message);
+        $this->set('message', $message) ;
         $this->set('_serialize', array('message'));
     }
 

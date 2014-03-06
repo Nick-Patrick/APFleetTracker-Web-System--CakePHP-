@@ -1,7 +1,27 @@
+<div id="secondary-nav-wrapper" class="large-11 medium-11 small-11 columns show-for-large-up">
+    <nav id="secondary-nav" class="top-bar" data-topbar>
+
+        <section class="top-bar-section">
+
+
+            <!-- Top Nav Section -->
+            <ul class="left">
+
+                <li><?php echo $this->Html->link(__('Vehicles'), array('controller' => 'vehicles', 'action' => 'index')); ?> </li>
+                <li class="divider"></li>
+                <li class="active"><?php echo $this->Html->link(__('Manage'), array('controller' => 'vehicles', 'action' => 'manage')); ?> </li>
+                <li class="divider"></li>
+                <li><a href="#">Statistics</a></li>
+                <li class="divider"></li>
+            </ul>
+        </section>
+    </nav>
+</div>
+
 <div class="vehicles form">
 <?php echo $this->Form->create('Vehicle'); ?>
 	<fieldset>
-		<legend><?php echo __('Edit Vehicle'); ?></legend>
+		<legend><h3>Edit Vehicle</h3></legend>
 	<?php
 		echo $this->Form->input('id');
 		echo $this->Form->input('name');
@@ -9,21 +29,17 @@
 		echo $this->Form->input('reg_number');
 		echo $this->Form->input('license_type');
 		echo $this->Form->input('crane');
+		echo $this->Form->input('trailer');
+		echo $this->Form->input('hydraulic_beavertail');
 		echo $this->Form->input('status');
 		echo $this->Form->input('available');
 	?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
+	<?php echo $this->Form->submit(
+		'Save', 
+    	array('class' => 'button')
+	); ?>
 
-		<li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('Vehicle.id')), null, __('Are you sure you want to delete # %s?', $this->Form->value('Vehicle.id'))); ?></li>
-		<li><?php echo $this->Html->link(__('List Vehicles'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Driver Vehicle Jobs'), array('controller' => 'driver_vehicle_jobs', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Driver Vehicle Job'), array('controller' => 'driver_vehicle_jobs', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Vehicle Daily Activities'), array('controller' => 'vehicle_daily_activities', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Vehicle Daily Activity'), array('controller' => 'vehicle_daily_activities', 'action' => 'add')); ?> </li>
-	</ul>
+<?php echo $this->Form->end(); ?>
 </div>
+

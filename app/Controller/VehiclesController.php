@@ -1,3 +1,4 @@
+
 <?php
 App::uses('AppController', 'Controller');
 /**
@@ -19,7 +20,7 @@ class VehiclesController extends AppController {
  * Other Models
  * User
  */
-    var $uses = array('Vehicle');
+    var $uses = array('Vehicle', 'Job', 'Driver');
 
     public function beforeFilter(){
         parent::beforeFilter();
@@ -34,6 +35,42 @@ class VehiclesController extends AppController {
 	public function index() {
 		$this->Vehicle->recursive = 0;
 		$this->set('vehicles', $this->Paginator->paginate());
+
+		$activeVehicles = $this->Vehicle->getActiveVehicles();
+		$availableVehicles = $this->Vehicle->getAvailableVehicles();
+		$unavailableVehicles = $this->Vehicle->getUnavailableVehicles();
+
+		$availableDrivers = $this->Driver->getAvailableDrivers();
+		$this->set('availableDrivers', $availableDrivers);
+
+		$pendingJobs = $this->Job->getPendingJobs();
+		$this->set('pendingJobs', $pendingJobs);
+
+		$todaysDate = date('Y-m-d');
+
+        $completedJobsToday = $this->Job->getCompletedJobsByDay($todaysDate);
+        $this->set('completedJobsToday',$completedJobsToday);
+
+		$this->set('activeVehicles', $activeVehicles);
+		$this->set('availableVehicles', $availableVehicles);
+		$this->set('unavailableVehicles', $unavailableVehicles);
+
+		$activeVehicleLocations[] = array();
+
+		//Default Google Map Config
+        $map_options = array(
+            'id' => 'map_canvas',
+            'width' => '100%',
+            'height' => '800px',
+            'style' => '',
+            'zoom' => 6,
+            'type' => 'ROADMAP',
+            'custom' => null,
+            'localize' => true,
+            'marker' => false
+        );
+
+        $this->set('map_options', $map_options);
 	}
 
 /**
@@ -99,6 +136,11 @@ class VehiclesController extends AppController {
 			$options = array('conditions' => array('Vehicle.' . $this->Vehicle->primaryKey => $id));
 			$this->request->data = $this->Vehicle->find('first', $options);
 		}
+
+		$vehicleTypes = $this->Vehicle->VehicleType->find('list');
+		$this->set(compact('vehicleTypes'));
+		$licenseTypes = $this->Vehicle->LicenseType->find('list',array('id','license_type'));
+		$this->set('licenseTypes',$licenseTypes);
 	}
 
 /**

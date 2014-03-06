@@ -1,4 +1,4 @@
-<div id="secondary-nav-wrapper" class="large-11 medium-11 small-11 columns show-for-medium-up">
+<div id="secondary-nav-wrapper" class="large-11 medium-11 small-11 columns show-for-large-up">
     <nav id="secondary-nav" class="top-bar" data-topbar>
 
         <section class="top-bar-section">
@@ -20,18 +20,18 @@
 
 <div class="full-width-content">
     <h2>Manage Vehicles <a href="#" id="addVehicleButton" data-reveal-id="modalPopup" class="button right">Add New Vehicle</a></h2>
-    <table width="100%">
+    <table class="driver-data" width="100%">
         <tr>
-            <th>Vehicle</th>
-            <th>Type</th>
-            <th>Reg Number</th>
-            <th>License Req.</th>
-            <th>Status</th>
-            <th>Available</th>
-            <th>Crane</th>
-            <th>Trailer</th>
-            <th>Beavertail</th>
-            <th>Description</th>
+            <th width="200">Vehicle</th>
+            <th width="150">Type</th>
+            <th width="150">Reg Number</th>
+            <th width="150">License Req.</th>
+
+            <th width="20">Crane</th>
+            <th width="20">Trailer</th>
+            <th width="20">Beavertail</th>
+            <th width="230">Description</th>
+            <th width="150"></th>
         </tr>
         <?php
             foreach($vehicles as $vehicle){ ?>
@@ -40,8 +40,7 @@
                 <td><?php echo $vehicle['VehicleType']['vehicle_type'];?></td>
                 <td><?php echo $vehicle['Vehicle']['reg_number'];?></td>
                 <td><?php echo $vehicle['LicenseType']['license_type'];?></td>
-                <td><?php echo $vehicle['Vehicle']['status'];?></td>
-                <td><?php echo $vehicle['Vehicle']['available'];?></td>
+
                 <td><?php echo $vehicle['Vehicle']['crane'];?></td>
                 <td><?php echo $vehicle['Vehicle']['trailer'];?></td>
                 <td><?php echo $vehicle['Vehicle']['hydraulic_beavertail'];?></td>

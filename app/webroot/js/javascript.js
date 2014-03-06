@@ -68,6 +68,10 @@ $(document).ready(function(){
     		assignJobDriver();
     	});
 
+    	$('#assignJobButton').click(function(){
+    		assignJobToDriver();
+    	});
+
 });
 
 var allPackages;
@@ -356,3 +360,45 @@ function assignJobDriver(){
 	$('#assignLaterJob').css('background','#5da423');
 	$('#assignJobModal').addClass('close-reveal-modal');
 }
+
+function assignJobToDriver(){
+	$('.assignJobToDriver').click(function () {return false;});
+
+	var allSelected = 0;
+	$('.chosenDriverName').val($('#assignJobButton').attr('href'));
+	
+	var selectOne = false;
+	var selectTwo = false;
+	$('select#PendingJob').on('change', function(){
+		selectOne = true;
+		console.log(selectOne);
+		if(selectTwo == true){
+			$('#modalJobAssignButton.disabled').removeClass("disabled");
+			$('#modalJobAssignButton').attr("disabled", false);
+			$('.assignJobToDriver').unbind('click');
+		}
+			
+		else {
+			$('#modalJobAssignButton').attr("disabled", true);		
+		}
+
+	});
+	
+	$('select#AvailableVehicle').on('change', function(){
+		selectTwo = true;
+		console.log(selectTwo);
+
+		if(selectOne == true){
+			$('#modalJobAssignButton.disabled').removeClass("disabled");
+			$('#modalJobAssignButton').attr("disabled", false);
+			$('.assignJobToDriver').unbind('click');
+		}
+			
+		else {
+			$('#modalJobAssignButton').attr("disabled", true);		
+		}
+
+	});
+
+
+};
