@@ -20,7 +20,7 @@ class VehiclesController extends AppController {
  * Other Models
  * User
  */
-    var $uses = array('Vehicle', 'Job', 'Driver');
+    var $uses = array('Vehicle', 'Job', 'Driver', 'Location', 'Package', 'JobPackage', 'DriverLocation');
 
     public function beforeFilter(){
         parent::beforeFilter();
@@ -39,7 +39,7 @@ class VehiclesController extends AppController {
 		$activeVehicles = $this->Vehicle->getActiveVehicles();
 		$availableVehicles = $this->Vehicle->getAvailableVehicles();
 		$unavailableVehicles = $this->Vehicle->getUnavailableVehicles();
-
+ $activeDrivers = $this->Driver->getActiveDrivers();
 		$availableDrivers = $this->Driver->getAvailableDrivers();
 		$this->set('availableDrivers', $availableDrivers);
 
@@ -57,11 +57,66 @@ class VehiclesController extends AppController {
 
 		$activeVehicleLocations[] = array();
 
+ foreach($activeDrivers as $activeDriver){
+            $activeVehicleLocations[] = $this->DriverLocation->find('first', array(
+                'conditions' => array('DriverLocation.driver_id' => $activeDriver['Driver']['id']),
+                'order' => array('DriverLocation.date_time_stamp' => 'desc')
+            ));
+        }
+        $this->set('activeVehicleLocations',$activeVehicleLocations);
 		//Default Google Map Config
         $map_options = array(
             'id' => 'map_canvas',
             'width' => '100%',
-            'height' => '800px',
+            'height' => '900px',
+            'style' => '',
+            'zoom' => 6,
+            'type' => 'ROADMAP',
+            'custom' => null,
+            'localize' => true,
+            'marker' => false
+        );
+
+        $this->set('map_options', $map_options);
+	}
+
+	public function viewCurrentActiveJob($vehicleId){
+		$activeJob = $this->Job->getActiveJobByVehicleId($vehicleId);
+        $this->set('activeJob', $activeJob);
+        $driverId = $activeJob[0]['Job']['driver_id'];
+        $activeDrivers = $this->Driver->findAllById($driverId);
+        $this->set('activeDrivers',$activeDrivers);
+
+        $activeDriverLocations[] = array();
+
+        foreach($activeDrivers as $activeDriver){
+            $activeDriverLocations[] = $this->DriverLocation->find('first', array(
+                'conditions' => array('DriverLocation.driver_id' => $activeDriver['Driver']['id']),
+                'order' => array('DriverLocation.date_time_stamp' => 'desc')
+            ));
+        }
+        
+        $this->set('activeDriverLocations', $activeDriverLocations);
+
+        $jobCollection = $this->Location->findAllById($activeJob[0]['Job']['collection_id']);
+        $this->set('jobCollection',$jobCollection);
+        $jobDropoff = $this->Location->findAllById($activeJob[0]['Job']['dropoff_id']);
+        $this->set('jobDropoff', $jobDropoff);
+
+        $vehicle = $this->Vehicle->findAllById($vehicleId);
+        $this->set('vehicle', $vehicle);
+
+        $packages[] = array();
+        foreach($activeJob[0]['JobPackage'] as $jobPackage){
+            $packages[] = $this->Package->findAllById($jobPackage['package_id']);
+        }
+        $this->set('packages', $packages);
+
+        //Default Google Map Config
+        $map_options = array(
+            'id' => 'map_canvas',
+            'width' => '100%',
+            'height' => '900px',
             'style' => '',
             'zoom' => 6,
             'type' => 'ROADMAP',
@@ -194,4 +249,25 @@ class VehiclesController extends AppController {
      	$this->set('_serialize', array('message'));
      }
 
+     public function updateVehicleById(){
+     	    if($this->request->data['key'] == "9c36c7108a73324100bc9305f581979071d45ee9"){
+            $this->Vehicle->id = $this->request->data['vehicle_id'];
+            $this->Driver->id = $this->request->data['driver_id'];
+            if ($this->Vehicle->save($this->request->data)) {
+                $message = 'Vehicle Updated';
+                $log = $this->request->data['vehicle_name'] . ' is now ' . $this->request->data['available'];
+                $this->UpdateLog->set('log',$log);
+                $this->UpdateLog->set('driver_id',$this->Driver->id);
+                $this->UpdateLog->save();
+            } else {
+                $message = 'Error';
+            }
+
+        }
+        else {
+            $message = 'Authentication Needed';
+        }
+        $this->set('message', $message);
+        $this->set('_serialize', array('message'));
+     }
 }

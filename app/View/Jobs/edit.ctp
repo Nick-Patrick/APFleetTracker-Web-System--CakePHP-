@@ -26,8 +26,16 @@
 		echo $this->Form->input('id');
 		echo $this->Form->input('name');
 		echo $this->Form->input('additional_details');
-		echo $this->Form->input('collection_point');
-		echo $this->Form->input('dropoff_point');
+    echo $this->Form->input('collection_id',
+            array('type' => 'select', 
+                  'options' => $collectionPoints,
+                  )
+        );
+    echo $this->Form->input('dropoff_id',
+            array('type' => 'select', 
+                  'options' => $dropoffPoints,
+                  )
+        );
 			echo $this->Form->input('status',
             array('type' => 'select', 
                   'options' => array(

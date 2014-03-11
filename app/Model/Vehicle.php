@@ -31,6 +31,7 @@ class Vehicle extends AppModel {
 		)
 	);
 
+
 /**
  * hasMany associations
  *
@@ -82,4 +83,5 @@ class Vehicle extends AppModel {
 		return $this->find('all', compact('conditions'));
 	}
 
+	
 }

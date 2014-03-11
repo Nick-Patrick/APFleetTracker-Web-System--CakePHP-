@@ -17,6 +17,7 @@ App::uses('AppController', 'Controller');
  */
 class OverviewController extends AppController {
 
+
     /**
      * Components
      *
@@ -39,7 +40,7 @@ class OverviewController extends AppController {
      * Other Models
      * User
      */
-    var $uses = array('Driver','User','DriverLocation','Job');
+    var $uses = array('Driver','User','DriverLocation','Job', 'UpdateLog');
 
 
     /**
@@ -71,11 +72,28 @@ class OverviewController extends AppController {
         $activeJobs = $this->Job->getActiveJobs();
         $this->set('activeJobs', $activeJobs);
 
+       // $logs = $this->UpdateLog->getUpdateLogDrivers();
+
+        $this->paginate = array(
+            'UpdateLog' => array(
+            'limit' => 12,
+            'order' => array(
+                'UpdateLog.created' => 'desc',
+            ),
+            'table' => 'update_logs'
+            ),
+        );
+
+        $log = $this->paginate('UpdateLog');
+
+        $this->set('logs', $log); 
+        
+
         //Default Google Map Config
         $map_options = array(
             'id' => 'map_canvas',
             'width' => '100%',
-            'height' => '800px',
+            'height' => '900px',
             'style' => '',
             'zoom' => 6,
             'type' => 'ROADMAP',
@@ -104,6 +122,7 @@ class OverviewController extends AppController {
 
         $this->set('activeDrivers', $activeDrivers);
         $this->set('activeDriverLocations', $activeDriverLocations);
+
 
         $availableDrivers = $this->Driver->getAvailableDrivers();
 

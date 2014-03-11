@@ -42,7 +42,7 @@
                                 <td><?php echo $active['LicenseType']['license_type']; ?></td>
                                 <td><?php echo $active['Driver']['telephone']; ?></td>
                                 <td>
-                                    <a href="" class="small button expand">View Current Job</a><br>
+                                    <a href="drivers/viewDriverCurrentActiveJob/<?php echo $active['Driver']['id']; ?>" class="small button expand">View Current Job</a><br>
                                     
                                 </td>
                         </tr>
@@ -67,7 +67,7 @@
                                 <td><?php echo $available['Driver']['telephone']; ?></td>
                                 <td>
                                     
-                                    <a href="<?php echo $available['Driver']['id'];?>" id="assignJobButton" data-reveal-id="assignJobModal" class="small button expand">Assign New Job</a><br>
+                                    <a href="<?php echo $available['Driver']['id'];?>" id="assignJobButton" data-reveal-id="assignJobModal" class="assignJobButton small button expand">Assign New Job</a><br>
                                     
                                 </td>
                         </tr>
@@ -129,7 +129,7 @@
                     </div>
 
                     <div class="large-6 columns">
-                        <label for"DriverVehicleJobVehicleId">Available Vehicles: <small>required</small></label>
+                        <label for"DriverVehicleJobVehicleId">Available Drivers: <small>required</small></label>
                         <select class="assignJobSecondSelect" name="data[Vehicle][id]" size="10" id="AvailableVehicle">
                                <?php
                                foreach($availableVehicles as $availableVehicle){ ?>

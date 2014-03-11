@@ -5362,8 +5362,12 @@ End Three Stat Boxes
 #driver-content {
     margin:0;
     max-width:100%;
+    min-height:1000px;
 }
 
+.drivers, .jobs, .full-width-content {
+  min-height:1000px;
+}
 
 
 /**
@@ -5778,4 +5782,8 @@ table.driver-data th {
 
 .button.alert {
   background-color:#223747;
+}
+
+span.current {
+  margin-left:1%;
 }

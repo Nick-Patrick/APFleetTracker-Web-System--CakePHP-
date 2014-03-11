@@ -50,11 +50,7 @@ else {
                                 <td><?php echo $activeVehicle['Vehicle']['reg_number']; ?></td>
                                 <td><?php echo $activeVehicle['Vehicle']['description']; ?></td>
                                 <td>
-                                    <a href="#" class="small button split">View Current Job <span data-dropdown="drop"></span></a><br>
-                                    <ul id="drop" class="f-dropdown" data-dropdown-content>
-                                        <li><a href="#">View Vehicle Activity</a></li>
-                                        <li><a href="#">Manage Vehicle</a></li>
-                                    </ul>
+                                    <a href="vehicles/viewCurrentActiveJob/<?php echo $activeVehicle['Vehicle']['id'];?>" class="button small">View Current Job</span></a><br>
                                 </td>
                         </tr>
                     <?php } ?>
@@ -88,7 +84,7 @@ else {
                                 <td><?php echo $availableVehicle['Vehicle']['reg_number']; ?></td>
                                 <td><?php echo $availableVehicle['Vehicle']['description']; ?></td>
                                 <td>
-                                    <a href="<?php echo $availableVehicle['Vehicle']['id'];?>" id="assignJobButton" data-reveal-id="assignJobModal" class="small button">Assign New Job</a><br>
+                                    <a href="<?php echo $availableVehicle['Vehicle']['id'];?>" id="assignJobButton" data-reveal-id="assignJobModal" class="assignJobButton small button expand">Assign New Job</a><br>
                                 </td>
                         </tr>
                     <?php } ?>
@@ -149,7 +145,7 @@ else {
                     </div>
 
                     <div class="large-6 columns">
-                        <label for"DriverVehicleJobVehicleId">Available Vehicles: <small>required</small></label>
+                        <label for"DriverVehicleJobVehicleId">Available Drivers: <small>required</small></label>
                         <select class="assignJobSecondSelect" name="data[Driver][id]" size="10" id="AvailableVehicle">
                                <?php
                                foreach($availableDrivers as $availableDriver){ ?>

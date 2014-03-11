@@ -29,7 +29,27 @@
                 <li class="stat-box"><ul><li class="stat-box-number"><?php echo count($activeDrivers); ?></li><li class="stat-box-desc">Active Drivers</li></ul></li>
             </ul>
 
-            <h4>Live Feed:</h4>
+            <h4>Live Driver Feed:</h4>
+            <table class="driver-data" width="100%">
+            <th width="200">Driver</th>
+            <th width="400">Log</th>
+            <th width="200">Time</th>
+            <?php
+                    foreach($logs as $log){?>
+                    <tr>
+                    <td><?php echo $log['Driver']['first_name'] . " " . $log['Driver']['last_name'];?></td>
+                    <td><?php echo $log['UpdateLog']['log'];?></td>
+                    <td><?php echo $log['UpdateLog']['created'];?></td>
+                    </tr>
+                   
+                  <?php  }
+
+            ?>
+            </table>
+            <?php echo $this->Paginator->numbers(); ?>
+            <?php echo $this->Paginator->prev('« Previous', null, null, array('class' => 'disabled')); ?> 
+            <?php echo $this->Paginator->next('Next »', null, null, array('class' => 'disabled')); ?> 
+            <?php echo $this->Paginator->counter(); ?>
 
         </div>
 
@@ -60,6 +80,21 @@
                 ?>
         </div>
     </div>
+    <script>
+     var time = new Date().getTime();
+     $(document.body).bind("mousemove keypress", function(e) {
+         time = new Date().getTime();
+     });
+
+     function refresh() {
+         if(new Date().getTime() - time >= 20000) 
+             window.location.reload(true);
+         else 
+             setTimeout(refresh, 20000);
+     }
+
+     setTimeout(refresh, 20000);
+</script>
 
 
 

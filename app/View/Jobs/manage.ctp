@@ -22,12 +22,13 @@
     <table class="driver-data" width="100%">
         <tr>
             <th width="200">Name</th>
-            <th width="300">Details</th>
+            <th width="150">Details</th>
             <th width="200">Status</th>
             <th width="200">Assigned To:</th>
             <th width="100"></th>
         </tr>
         <?php
+        $i = 1;
             foreach($jobs as $job){ ?>
                 <tr>
                 <td><?php echo $job['Job']['name'];?></td>
@@ -42,6 +43,7 @@
                 </td>
                 </tr>
         <?php
+            $i++;
             }
         ?>
     </table>

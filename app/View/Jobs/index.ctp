@@ -41,7 +41,7 @@
                                  <td><?php echo $activeJob['Job']['additional_details']; ?></td>
                                  <td><?php echo $activeJob['Driver']['first_name']. " " . $activeJob['Driver']['last_name'] ; ?></td>
                                 <td>
-                                    <a href="#" class="small button expand">View Current Job</a><br>
+                                    <a href="jobs/viewCurrentActiveJob/<?php echo $activeJob['Driver']['id'];?> " class="small button expand">View Current Job</a><br>
                                 </td>
                         </tr>
                     <?php } ?>
@@ -86,7 +86,7 @@
                                 <td><?php echo $pendingJob['Job']['additional_details']; ?></td>
                                 
                                 <td>
-                                    <a href="/apTracker/jobs/assign" class="small button expand">Assign Job</a>
+                                    <a href="<?php echo $pendingJob['Job']['id'];?>" id="assignJobButton" data-reveal-id="assignJobModal" class="assignJobButton small button expand">Assign Job</a>
                                 </td>
                         </tr>
                     <?php } ?>
@@ -120,7 +120,54 @@
                
                 ?>
             </div>
+           
+         <!-- Assign Job to Driver / Vehicle Modal -->
+        <div id="assignJobModal" class="reveal-modal small" data-reveal>
+            <h3>Assign Job</h3> 
+            <form action="/apTracker/jobs/assign" id="JobAssignForm" method="post" accept-charset="utf-8" data-abide>
+
+            <input name="data[Job][id]" type="hidden" class="chosenDriverName"/>
+            <hr/>
+            <div class="row">
+                    <div class="large-6 columns">
+                         <div class="name-field">
+                            <label for="PendingJobs">Available Drivers: <small>required</small></label>
+                            <select class="assignJobFirstSelect" name="data[Driver][id]" size="10" id="PendingJob">
+                               <?php
+                               foreach($availableDrivers as $availableDriver){ ?>
+                                   <option value="<?php echo $availableDriver['Driver']['id'];?>"><?php echo $availableDriver['Driver']['first_name'] . " " . $availableDriver['Driver']['last_name'];?></option>
+                               <?php
+                               } ?>
+
+                            </select>                        
+                        </div>  
+                    </div>
+
+                    <div class="large-6 columns">
+                        <label for"DriverVehicleJobVehicleId">Available Vehicles: <small>required</small></label>
+                        <select class="assignJobSecondSelect" name="data[Vehicle][id]" size="10" id="AvailableVehicle">
+                               <?php
+                               foreach($availableVehicles as $availableVehicle){ ?>
+                                   <option value="<?php echo $availableVehicle['Vehicle']['id'];?>"><?php echo $availableVehicle['Vehicle']['name'];?></option>
+                               <?php
+                               } ?>
+
+                            </select>  
+                     
+                                <!--<a href="jobs/assign" id="modalJobAssignButton" class="assignJobToDriver button right disabled">Assign Job</a>-->
+                                 <?php echo $this->Form->submit(__('Assign Job', true), 
+                                    array('name' => 'assignJob', 'id' => 'modalJobAssignButton', 'class' => 'assignJobToDriver button right disabled')); 
+                                
+                                ?>
+                                <?php echo $this->form->end();?>
+                    </div>
+            </div>
             
+               
+            <a class="close-reveal-modal">&#215;</a>
+
+        </div>
+
         </div>
 
 

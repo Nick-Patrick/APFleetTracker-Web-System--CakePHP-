@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
 	initTimePickers();
 
 	    $('#modalCancelButton').click(function(){
@@ -68,7 +67,8 @@ $(document).ready(function(){
     		assignJobDriver();
     	});
 
-    	$('#assignJobButton').click(function(){
+    	$('.assignJobButton').click(function(){
+
     		assignJobToDriver();
     	});
 

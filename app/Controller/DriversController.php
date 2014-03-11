@@ -34,7 +34,7 @@ class DriversController extends AppController {
  * Other Models
  * Driver
  */
-    var $uses = array('Driver','User','DriverLocation','Group','LicenseType','Vehicle','Job');
+    var $uses = array('Driver','User','DriverLocation','Group','LicenseType','Vehicle','Job','UpdateLog','Location','Package');
 
 
     /**
@@ -78,7 +78,7 @@ class DriversController extends AppController {
         $map_options = array(
             'id' => 'map_canvas',
             'width' => '100%',
-            'height' => '800px',
+            'height' => '900px',
             'style' => '',
             'zoom' => 6,
             'type' => 'ROADMAP',
@@ -134,7 +134,10 @@ class DriversController extends AppController {
                 $this->Session->setFlash(__('Driver Added!'));
                 $this->User->set('driver_id', $this->Driver->id);
                 $this->User->save($data);
-
+                $log = 'Driver Created.';
+                $this->UpdateLog->set('log',$log);
+                $this->UpdateLog->set('driver_id',$this->Driver->id);
+                $this->UpdateLog->save();
                 return $this->redirect('manage');			
             } 
             else {
@@ -183,12 +186,14 @@ class DriversController extends AppController {
  */
 	public function delete($id = null) {
 		$this->Driver->id = $id;
+
 		if (!$this->Driver->exists()) {
 			throw new NotFoundException(__('Invalid driver'));
 		}
 		$this->request->onlyAllow('post', 'delete');
 		if ($this->Driver->delete()) {
 			$this->Session->setFlash(__('The driver has been deleted.'));
+            $driver = $this->Driver->findById($this->Driver->id);
 		} else {
 			$this->Session->setFlash(__('The driver could not be deleted. Please, try again.'));
 		}
@@ -208,6 +213,61 @@ class DriversController extends AppController {
 
     }
 
+
+/**
+* view drivers current job
+*
+ */
+    public function viewDriverCurrentActiveJob($driverId){
+        $activeJob = $this->Job->getActiveJobByDriverId($driverId);
+        $this->set('activeJob', $activeJob);
+
+        $activeDrivers = $this->Driver->findAllById($driverId);
+        $this->set('activeDrivers',$activeDrivers);
+
+        $activeDriverLocations[] = array();
+
+        foreach($activeDrivers as $activeDriver){
+            $activeDriverLocations[] = $this->DriverLocation->find('first', array(
+                'conditions' => array('DriverLocation.driver_id' => $activeDriver['Driver']['id']),
+                'order' => array('DriverLocation.date_time_stamp' => 'desc')
+            ));
+        }
+        
+        $this->set('activeDriverLocations', $activeDriverLocations);
+
+        $jobCollection = $this->Location->findAllById($activeJob[0]['Job']['collection_id']);
+        $this->set('jobCollection',$jobCollection);
+        $jobDropoff = $this->Location->findAllById($activeJob[0]['Job']['dropoff_id']);
+        $this->set('jobDropoff', $jobDropoff);
+
+        $vehicle = $this->Vehicle->findAllById($activeJob[0]['DriverVehicleJob'][0]['vehicle_id']);
+        $this->set('vehicle', $vehicle);
+
+        $packages[] = array();
+        foreach($activeJob[0]['JobPackage'] as $jobPackage){
+            $packages[] = $this->Package->findAllById($jobPackage['package_id']);
+        }
+        $this->set('packages', $packages);
+
+        //Default Google Map Config
+        $map_options = array(
+            'id' => 'map_canvas',
+            'width' => '100%',
+            'height' => '900px',
+            'style' => '',
+            'zoom' => 6,
+            'type' => 'ROADMAP',
+            'custom' => null,
+            'localize' => true,
+            'marker' => false
+        );
+
+        $this->set('map_options', $map_options);
+
+
+    }
+
     public function update($email = null) {
         if($this->request->data['key'] == "9c36c7108a73324100bc9305f581979071d45ee9"){
             $driver = $this->Driver->find('first', array('conditions' => array('Driver.email' => $this->request->data['email'])));
@@ -217,6 +277,11 @@ class DriversController extends AppController {
 
             if ($this->Driver->save($this->request->data)) {
                 $message = 'Driver Updated';
+                $log = 'Driver is now: ' . $this->request->data['available'];
+                $this->UpdateLog->set('log',$log);
+                $this->UpdateLog->set('driver_id',$this->Driver->id);
+                $this->UpdateLog->save();
+
             } else {
                 $message = 'Error';
             }
@@ -235,6 +300,10 @@ class DriversController extends AppController {
 
             if ($this->Driver->save($this->request->data)) {
                 $message = 'Driver Updated';
+                $log = 'Driver is now ' . $this->request->data['available'];
+                $this->UpdateLog->set('log',$log);
+                $this->UpdateLog->set('driver_id',$this->Driver->id);
+                $this->UpdateLog->save();
             } else {
                 $message = 'Error';
             }

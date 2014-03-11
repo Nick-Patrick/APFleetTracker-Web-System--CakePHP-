@@ -70,15 +70,24 @@ function getFilterVars(){
     else {
         plotRouteTaken = "No";
     }
+    var filterDate = $('#filterDate').val();
+
     
     $.ajax({
-       type: 'GET',
+       type: 'POST',
         async: true,
         global: 'false',
         url: '/apTracker/driverLocations/index.json',
+        data:  {
+            'inputDate': filterDate
+        },
         headers: {Accept: 'application/json'},
         dataType: 'json',
         success: function(locationResult){
+            console.log(locationResult);
+            var driverCount = 0;
+            var truckMarkerImage = "";
+            var truckPrevMarkerImage = "";
             clearMapMarkers(); //Clear map.
             var currentLocations = {};
             var previousLocations = {};
@@ -107,7 +116,8 @@ function getFilterVars(){
                         return;
                     }
                 });
-
+                truckMarkerImage = "/apTracker/img/truckMarker";
+                truckPrevMarkerImage = "/apTracker/img/measleBlue";
             }
 
             $.each(locations, function(i,v){
@@ -119,12 +129,12 @@ function getFilterVars(){
                 markerDate.setHours(0,0,0,0);
  
 
-
                 if(Date.parse(filterDate) == Date.parse(markerDate)){
-
                     if(v.currentPosition == "Yes"){
                         if(plotCurrentLocation == "Yes"){
-                            markerIcon = "/apTracker/img/truckMarker.png";
+                            markerIcon = truckMarkerImage + driverCount + ".png"; //"/apTracker/img/truckMarker.png";
+                            driverCount++;
+
                             var contentString = "<h4>" + v.firstName + " " + v.lastName + "</h4>" +
                                 "<ul class='no-bullet'>" +
                                 "<li>Something" + "</li>" +
@@ -149,7 +159,11 @@ function getFilterVars(){
                     }
                     else {
                         if(plotRouteTaken == "Yes"){
-                            markerIcon = "/apTracker/img/measleBlue.png";
+                            prevDriverCount = driverCount;
+                            --prevDriverCount;
+                            console.log(driverCount);
+                            console.log(prevDriverCount);
+                            markerIcon = truckPrevMarkerImage + prevDriverCount + ".png";
                             var contentString = "<h4>" + v.firstName + " " + v.lastName + "</h4>" +
                                                 "<h5><small>" + v.timestamp + "</small></h5>";
                             var infowindow = new google.maps.InfoWindow({

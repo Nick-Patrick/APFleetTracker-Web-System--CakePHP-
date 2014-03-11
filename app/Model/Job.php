@@ -24,6 +24,14 @@ public $belongsTo = array(
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+		),
+		'Collection' => array(
+			'className' => 'Location',
+			'foreignKey' => 'collection_id'
+		),
+		'Dropoff' => array(
+			'className' => 'Location',
+			'foreignKey' => 'dropoff_id'
 		)
 	);
 
@@ -113,7 +121,21 @@ public $belongsTo = array(
 			return $this->find('all', compact('conditions'));
 		}
 
+		public function getActiveJobByDriverId($driverId){
+			$conditions = array(
+				'Job.status' => 'Active',
+				'Job.driver_id' => $driverId
+			);
+			return $this->find('all', compact('conditions'));
+		}
 
+		public function getActiveJobByVehicleId($vehicleId){
+			$conditions = array(
+				'Job.status' => 'Active',
+				'Job.vehicle_id' => $vehicleId
+			);
+			return $this->find('all',compact('conditions'));
+		}
 
 
 		 

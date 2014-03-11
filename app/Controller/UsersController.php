@@ -8,6 +8,8 @@ App::uses('AppController', 'Controller');
  */
 class UsersController extends AppController {
 
+    var $uses = array('User','UpdateLog');
+
 /**
  * Components
  *
@@ -56,9 +58,16 @@ class UsersController extends AppController {
 				if($driverUsers[0]){
 					$this->set('driverUsers',$driverUsers[0]['User']);
        		    	$this->set('_serialize', 'driverUsers');
+       		    	 $log = 'Driver logged into app.';
+               		 $this->UpdateLog->set('log',$log);
+                	 $this->UpdateLog->set('driver_id', $driverUsers[0]['User']['driver_id']);
+                	 $this->UpdateLog->save();
        		    }
        		    else {
-
+       		    	 $log = 'Driver failed to login: ' . $username;
+               		 $this->UpdateLog->set('log',$log);
+               		 $this->UpdateLog->set('error', 'Login Failed');
+                	 $this->UpdateLog->save();
        		    	echo "No users found.";
        		    }
        		}

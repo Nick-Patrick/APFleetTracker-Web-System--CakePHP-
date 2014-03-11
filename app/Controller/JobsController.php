@@ -19,7 +19,7 @@ class JobsController extends AppController {
  * Other Models
  * Job
  */
-    var $uses = array('Job','Location','Package','Driver','Vehicle','User','Job_Package');
+    var $uses = array('Job','Location','Package','Driver','Vehicle','User','Job_Package','DriverLocation');
 
 /**
 * Helpers
@@ -51,6 +51,11 @@ class JobsController extends AppController {
         $activeDrivers = $this->Driver->getActiveDrivers();
 		$activeDriverLocations[] = array();
 
+		$availableDrivers = $this->Driver->getAvailableDrivers();
+		$this->set('availableDrivers', $availableDrivers);
+		$availableVehicles = $this->Vehicle->getAvailableVehicles();
+        $this->set('availableVehicles',$availableVehicles);
+
         foreach($activeDrivers as $activeDriver){
             $activeDriverLocations[] = $this->Driver->DriverLocation->find('first', array(
                 'conditions' => array('DriverLocation.driver_id' => $activeDriver['Driver']['id']),
@@ -65,7 +70,7 @@ class JobsController extends AppController {
         $map_options = array(
             'id' => 'map_canvas',
             'width' => '100%',
-            'height' => '800px',
+            'height' => '900px',
             'style' => '',
             'zoom' => 6,
             'type' => 'ROADMAP',
@@ -123,6 +128,7 @@ class JobsController extends AppController {
 				$this->Driver->saveField('available','Assigned');
 				$this->Vehicle->saveField('available','Assigned');
 				$this->Job->saveField('driver_id', $this->request->data['DriverVehicleJob']['driver_id']);
+				$this->Job->saveField('vehicle_id', $this->request->data['DriverVehicleJob']['vehicle_id']);
 			}
 
 			return $this->redirect(array('action' => 'index'));
@@ -137,6 +143,7 @@ class JobsController extends AppController {
 			$this->Vehicle->id = $this->request->data['Vehicle']['id'];
 			$this->Job->saveField('status','Assigned');
 			$this->Job->saveField('driver_id', $this->Driver->id);
+			$this->Job->saveField('vehicle_id', $this->Vehicle->id);
 			//$this->Job->saveAssociated($data);
 			$this->request->data['DriverVehicleJob']['job_id'] = $this->Job->id;
 			$this->request->data['DriverVehicleJob']['vehicle_id'] = $this->Vehicle->id;
@@ -173,6 +180,10 @@ class JobsController extends AppController {
 			$options = array('conditions' => array('Job.' . $this->Job->primaryKey => $id));
 			$this->request->data = $this->Job->find('first', $options);
 		}
+        $collectionPoints = $this->Location->find('list', array('id','name'));
+        $this->set('collectionPoints',$collectionPoints);
+        $dropoffPoints = $this->Location->find('list', array('id','name'));
+        $this->set('dropoffPoints',$dropoffPoints);
 	}
 
 /**
@@ -207,6 +218,8 @@ class JobsController extends AppController {
      		)
      	);
      	$this->set('dropoffPoint', $dropoffPoint);
+
+
 	}
 
 	public function addJob(){
@@ -255,6 +268,54 @@ class JobsController extends AppController {
 
      }
 
+     public function viewCurrentActiveJob($driverId){
+     	$activeJob = $this->Job->getActiveJobByDriverId($driverId);
+        $this->set('activeJob', $activeJob);
+
+        $activeDrivers = $this->Driver->findAllById($driverId);
+        $this->set('activeDrivers',$activeDrivers);
+
+        $activeDriverLocations[] = array();
+
+        foreach($activeDrivers as $activeDriver){
+            $activeDriverLocations[] = $this->DriverLocation->find('first', array(
+                'conditions' => array('DriverLocation.driver_id' => $activeDriver['Driver']['id']),
+                'order' => array('DriverLocation.date_time_stamp' => 'desc')
+            ));
+        }
+        
+        $this->set('activeDriverLocations', $activeDriverLocations);
+
+        $jobCollection = $this->Location->findAllById($activeJob[0]['Job']['collection_id']);
+        $this->set('jobCollection',$jobCollection);
+        $jobDropoff = $this->Location->findAllById($activeJob[0]['Job']['dropoff_id']);
+        $this->set('jobDropoff', $jobDropoff);
+
+        $vehicle = $this->Vehicle->findAllById($activeJob[0]['DriverVehicleJob'][0]['vehicle_id']);
+        $this->set('vehicle', $vehicle);
+
+        $packages[] = array();
+        foreach($activeJob[0]['JobPackage'] as $jobPackage){
+            $packages[] = $this->Package->findAllById($jobPackage['package_id']);
+        }
+        $this->set('packages', $packages);
+
+        //Default Google Map Config
+        $map_options = array(
+            'id' => 'map_canvas',
+            'width' => '100%',
+            'height' => '900px',
+            'style' => '',
+            'zoom' => 6,
+            'type' => 'ROADMAP',
+            'custom' => null,
+            'localize' => true,
+            'marker' => false
+        );
+
+        $this->set('map_options', $map_options);
+     }
+
      public function assignedJobsByDriverId(){
 
      	if($this->request->is('post')){
@@ -294,12 +355,39 @@ class JobsController extends AppController {
         	if($this->request->data['key'] == "9c36c7108a73324100bc9305f581979071d45ee9"){
         	   //$this->Job->id = $this->request->data['job_id'];
         		$this->Job->id = $job_id;
-	
-        	    if ($this->Job->save($this->request->data)) {
+        		$job = $this->Job->findAllById($job_id);
+        		$this->Vehicle->id = $job[0]['Job']['vehicle_id'];
+        		$this->Job->save($this->request->data);
+
+        		if($this->request->data['status'] == 'Complete'){
+        			$this->Vehicle->saveField('available','Available');
+        			$jobLog = 'Job Completed - <a href="">' + $this->request->data['job_id'] + '</a>';
+        	        $this->UpdateLog->set('log',$jobLog);
+        	        $this->UpdateLog->save();
+        		}
+        		if($this->request->data['status'] == 'Active'){
+        			$this->Vehicle->saveField('available', 'Active');
+        			$jobLog = 'Job Started - <a href="">' + $this->request->data['job_id'] + ' (Click)</a>';
+        	        $this->UpdateLog->set('log',$jobLog);
+        	        $this->UpdateLog->save();
+        		}
+        		else {
+        			$this->Vehicle->saveField('available', 'Available');
+        		}
+
+						
+        	   /* if ($this->Job->save($this->request->data)) {
         	        $jobMessage = 'Job Updated';
+        	        //if($this->request->data['status'] == 'Complete'){
+        	        	
+        	        //}
+        	         //$log = 'Job Updated - ' . $this->request->data['available'];
+        	        // $this->UpdateLog->set('log',$log);
+                	 //$this->UpdateLog->set('driver_id', $this->request->data['driver_id']);
+                	 //$this->UpdateLog->save();
         	    } else {
         	        $jobMessage = 'Error';
-        	    }
+        	    }*/
 	
         	}
         	else {

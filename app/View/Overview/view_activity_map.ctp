@@ -23,7 +23,7 @@
 </div>
 <div id="map_canvas_wrapper_full_screen" class="large-12 medium-12 small-12 columns">
 
-    <div id="map_canvas" style="width:100%;height:700px;" class="map"></div>
+    <div id="map_canvas" style="width:100%;height:900px;" class="map"></div>
 
 
 </div>
@@ -47,6 +47,7 @@
                     <ul>
                        <?php
                            foreach($activeDrivers as $activeDriver){ ?>
+                               <li>Active Drivers</li>
                                <li>
                                    <input name="checkedDrivers" id="<?php echo $activeDriver['Driver']['id']; ?>" value="<?php echo $activeDriver['Driver']['id']; ?>" type="checkbox" checked>
                                         <label for="<?php echo $activeDriver['Driver']['id']; ?>">
@@ -55,9 +56,23 @@
                                    </input>
 
                                </li>
+                               
                        <?php
                             }
+
                        ?>
+                       <li>Available Drivers</li>
+                       <?php 
+                            foreach($availableDrivers as $availableDriver){ ?>
+                               <li>
+                                   <input name="checkedDrivers" id="<?php echo $availableDriver['Driver']['id']; ?>" value="<?php echo $availableDriver['Driver']['id']; ?>" type="checkbox" checked>
+                                        <label for="<?php echo $availableDriver['Driver']['id']; ?>">
+                                             <?php echo $availableDriver['Driver']['first_name'] . " " . $availableDriver['Driver']['last_name']; ?>
+                                        </label>
+                                   </input>
+
+                               </li>
+                         <?php } ?>
                     </ul>
                 </div>
                 <div class="content" id="panel2-2">

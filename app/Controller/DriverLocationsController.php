@@ -27,10 +27,12 @@ class DriverLocationsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->DriverLocation->recursive = 0;
-		//$this->set('driverLocations', $this->Paginator->paginate());
-		$this->set('driverLocations', $this->DriverLocation->find('all', array(
-			'order' => array('date_time_stamp' => 'desc')
+		$inputDate = $this->request->data['inputDate'];
+
+		$this->set('driverLocations', $this->DriverLocation->find('all', 
+			array(
+				'conditions' => array('DATE(date_time_stamp)' => $inputDate),
+				'order' => array('date_time_stamp' => 'desc')
 			)
 		));
         $this->set('_serialize',array('driverLocations'));
