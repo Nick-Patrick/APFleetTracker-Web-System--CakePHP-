@@ -6,26 +6,11 @@
 class JobFixture extends CakeTestFixture {
 
 /**
- * Fields
+ * Import
  *
  * @var array
  */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary'),
-		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'collection_point' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
-		'dropoff_point' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
-		'status' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 10, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'completed_date' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-			'collection_point' => array('column' => 'collection_point', 'unique' => 0),
-			'dropoff_point' => array('column' => 'dropoff_point', 'unique' => 0)
-		),
-		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
-	);
+	public $import = array('model' => 'Job');
 
 /**
  * Records
@@ -34,14 +19,34 @@ class JobFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => 1,
-			'name' => 'Lorem ipsum dolor sit amet',
-			'collection_point' => 1,
-			'dropoff_point' => 1,
-			'status' => 'Lorem ip',
-			'completed_date' => '2014-01-02 09:53:05',
-			'created' => '2014-01-02 09:53:05',
-			'modified' => '2014-01-02 09:53:05'
+			'id' => '96',
+			'name' => 'Job One',
+			'collection_id' => '213',
+			'dropoff_id' => '210',
+			'status' => 'Complete',
+			'completed_date' => '2014-03-11 08:24:04',
+			'created' => '2014-03-10 18:08:45',
+			'modified' => '2014-03-11 08:22:05',
+			'additional_details' => '',
+			'due_date' => null,
+			'created_by' => 'Test Admin',
+			'driver_id' => '458',
+			'vehicle_id' => '45'
+		),
+		array(
+			'id' => '102',
+			'name' => 'Job Five',
+			'collection_id' => '210',
+			'dropoff_id' => '212',
+			'status' => 'Assigned',
+			'completed_date' => null,
+			'created' => '2014-03-11 08:59:42',
+			'modified' => '2014-03-11 08:59:42',
+			'additional_details' => '',
+			'due_date' => null,
+			'created_by' => 'Test Admin',
+			'driver_id' => '458',
+			'vehicle_id' => '44'
 		),
 	);
 

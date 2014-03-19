@@ -6,18 +6,11 @@
 class VehicleTypeFixture extends CakeTestFixture {
 
 /**
- * Fields
+ * Import
  *
  * @var array
  */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary'),
-		'vehicle_type' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 50, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1)
-		),
-		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB')
-	);
+	public $import = array('model' => 'VehicleType');
 
 /**
  * Records
@@ -26,8 +19,12 @@ class VehicleTypeFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => 1,
-			'vehicle_type' => 'Lorem ipsum dolor sit amet'
+			'id' => '1',
+			'vehicle_type' => '3.5t Flatbed'
+		),
+		array(
+			'id' => '2',
+			'vehicle_type' => '7.5t Flatbed'
 		),
 	);
 

@@ -37,42 +37,43 @@ class UserTest extends CakeTestCase {
 	}
 
 	public function testGetUserByEmail(){
-		$result = $this->User->getUserByEmail('tom@email.com');
+		$result = $this->User->getUserByEmail('test@test.com');
 
 		$expected = array(
-			'User' => array(
-				'id' => 3,
-				'username' => 'tom@email.com',
-				'password' => 'password',
-				'role' => 'Driver',
-				'created' => '2014-01-02 09:53:27',
-				'modified' => '2014-01-02 09:53:27',
-				'first_name' => 'Tom',
-				'last_name' => 'Well',
-				'email' => 'tom@email.com',
-				'telephone' => '0123456789',
-				'status' => 'Active',
-				'group_id' => '6'
+			'User' => Array (
+				'id' => '6',
+		        'username' => 'test',
+		        'password' => '9c36c7108a73324100bc9305f581979071d45ee9',
+		        'role' => 'Administrator',
+		        'created' => '2014-01-12 05:37:05',
+		        'modified' => '2014-01-12 06:05:58',
+		        'first_name' => 'Test',
+		        'last_name' => 'Admin',
+		        'email' => 'test@test.com',
+		        'telephone' => '0123456789',
+		        'status' => 'Active',
+		        'group_id' => '4',
+		        'driver_id' => '',
 			),
-			'Group' => array(
-				'id' => 6,
-				'name' => 'Driver',
-				'created' => '2014-01-11 10:55:58',
-				'modified' => '2014-01-11 10:55:58'
-			),
-			'Driver' => array(
-				'id' => 3,
-				'user_id' => 3,
-				'license_type_id' => '1',
-				'available' => 'Active',
-				'last_logged_in' => '2007-03-18 10:41:23',
-				'created' => '2007-03-18 10:41:23',
-				'modified' => '2007-03-18 10:41:23',
-				'first_name' => 'Tom',
-				'last_name' => 'Well',
-				'email' => 'tom@email.com',
-				'telephone' => '45671 456789'
-			)
+		    'Group' => Array (
+		    	'id' => '4',
+		        'name' => 'Administrator',
+		        'created' => '2014-01-12 05:42:46',
+		        'modified' => '2014-01-12 05:42:46',
+		    ),
+		    'Driver' => Array (
+		    	'id' => null,
+		       'user_id' => null,
+		       'license_type_id' => null,
+		       'available' => null,
+		       'last_logged_in' => null,
+		       'created' => null,
+		       'modified' => null,
+		       'first_name' => null,
+		       'last_name' => null,
+		       'email' => null,
+		       'telephone' => null,
+		    ),
 		);
 
 		$this->assertEqual($expected, $result);

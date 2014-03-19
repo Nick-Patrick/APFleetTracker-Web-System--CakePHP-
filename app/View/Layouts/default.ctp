@@ -44,6 +44,16 @@ $cakeDescription = __d('cake_dev', 'APTrackers');
 		echo $this->fetch('css') . "\n";
 		echo $this->fetch('script') . "\n";
 	?>
+
+  <script> // Google Analytics
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49063718-1', 'aphaulage.co.uk');
+  ga('send', 'pageview');
+  </script>
 </head>
 <body>
 
@@ -127,7 +137,6 @@ $cakeDescription = __d('cake_dev', 'APTrackers');
                 
                 <section class="main-section">
                     <section>
-                         <?php echo $this->Session->flash(); ?>
                          <?php echo $this->fetch('content'); ?>
                      </section>              
                 </section>
@@ -152,5 +161,8 @@ echo $this->Js->writeBuffer();
     $(document).foundation();
 </script>
 
+<script type="text/javascript" src="http://aphaulage.co.uk/clickheat/js/clickheat.js"></script><noscript><p><a href="http://www.dugwood.com/index.html">CMS</a></p></noscript><script type="text/javascript"><!--
+clickHeatSite = 'APTracker';clickHeatGroup = encodeURIComponent(window.location.pathname+window.location.search);clickHeatServer = 'http://aphaulage.co.uk/clickheat/click.php';initClickHeat(); //-->
+</script>
 </body>
 </html>

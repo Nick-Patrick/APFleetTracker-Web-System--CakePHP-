@@ -22,6 +22,8 @@ class PackagesControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testIndex() {
+		$result = $this->testAction('/packages/index');
+		debug($result);
 	}
 
 /**
@@ -30,6 +32,8 @@ class PackagesControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testView() {
+		$result = $this->testAction('/packages/view/13');
+		debug($result);
 	}
 
 /**
@@ -38,6 +42,24 @@ class PackagesControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testAdd() {
+		$data = array(
+			'id' => '13',
+			'name' => 'Robotic Tractor',
+			'length' => '',
+			'width' => '',
+			'height' => '',
+			'weight' => '8000kg',
+			'special_reqs' => '',
+			'created' => '2014-03-06 19:32:48',
+			'modified' => '2014-03-06 19:32:48'	
+			
+		);
+
+
+		$result = $this->testAction('/packages/add',
+			array('data' => $data, 'method' => 'post')
+			);
+		debug($result);
 	}
 
 /**
@@ -46,6 +68,23 @@ class PackagesControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testEdit() {
+		$data = array(
+			'id' => '13',
+			'name' => 'Robotic Tractor',
+			'length' => '',
+			'width' => '',
+			'height' => '',
+			'weight' => '8000kg',
+			'special_reqs' => '',
+			'created' => '2014-03-06 19:32:48',
+			'modified' => '2014-03-06 19:32:48'	
+		);
+
+
+		$result = $this->testAction('/packages/edit/13',
+			array('data' => $data, 'method' => 'post')
+			);
+		debug($result);
 	}
 
 /**
@@ -54,6 +93,8 @@ class PackagesControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testDelete() {
+		$result = $this->testAction('/packages/delete/13');
+		debug($result);
 	}
 
 }

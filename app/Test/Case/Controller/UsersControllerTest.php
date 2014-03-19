@@ -33,6 +33,8 @@ class UsersControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testIndex() {
+		$result = $this->testAction('/users/index');
+		debug($result);
 	}
 
 /**
@@ -41,70 +43,11 @@ class UsersControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testView() {
+		$result = $this->testAction('/users/view/7');
+		debug($result);
 	}
 
-/**
- * testAdd method
- *
- * @return void
- */
-	public function testAdd() {
-	}
 
-/**
- * testEdit method
- *
- * @return void
- */
-	public function testEdit() {
-	}
 
-/**
- * testDelete method
- *
- * @return void
- */
-	public function testDelete() {
-	}
-
-/**
- * testAdminIndex method
- *
- * @return void
- */
-	public function testAdminIndex() {
-	}
-
-/**
- * testAdminView method
- *
- * @return void
- */
-	public function testAdminView() {
-	}
-
-/**
- * testAdminAdd method
- *
- * @return void
- */
-	public function testAdminAdd() {
-	}
-
-/**
- * testAdminEdit method
- *
- * @return void
- */
-	public function testAdminEdit() {
-	}
-
-/**
- * testAdminDelete method
- *
- * @return void
- */
-	public function testAdminDelete() {
-	}
 
 }

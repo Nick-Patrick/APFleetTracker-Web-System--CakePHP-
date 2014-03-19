@@ -45,9 +45,9 @@
             <div class="tabs-content">
                 <div class="content active" id="panel2-1">
                     <ul>
+                    <li>Active Drivers</li>
                        <?php
                            foreach($activeDrivers as $activeDriver){ ?>
-                               <li>Active Drivers</li>
                                <li>
                                    <input name="checkedDrivers" id="<?php echo $activeDriver['Driver']['id']; ?>" value="<?php echo $activeDriver['Driver']['id']; ?>" type="checkbox" checked>
                                         <label for="<?php echo $activeDriver['Driver']['id']; ?>">

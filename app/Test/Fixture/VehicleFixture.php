@@ -6,26 +6,11 @@
 class VehicleFixture extends CakeTestFixture {
 
 /**
- * Fields
+ * Import
  *
  * @var array
  */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary'),
-		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'vehicle_type_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 25),
-		'reg_number' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 10),
-		'license_type_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 25),
-		'crane' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 5),
-		'status' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 10, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'available' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 10, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1)
-		),
-		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
-	);
+	public $import = array('model' => 'Vehicle');
 
 /**
  * Records
@@ -34,16 +19,34 @@ class VehicleFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => 1,
-			'name' => 'Lorem ipsum dolor sit a',
-			'vehicle_type_id' => 1,
-			'reg_number' => 'Lorem ip',
-			'license_type_id' => 1,
-			'crane' => 'Lor',
-			'status' => 'Lorem ip',
-			'available' => 'Lorem ip',
-			'created' => '2014-01-02 09:53:42',
-			'modified' => '2014-01-02 09:53:42'
+			'id' => '44',
+			'name' => 'Ford Transit',
+			'vehicle_type_id' => '1',
+			'reg_number' => 'MN07 1SJ',
+			'license_type_id' => '1',
+			'crane' => 'No',
+			'status' => 'Available',
+			'available' => 'Available',
+			'created' => '2014-02-08 13:23:58',
+			'modified' => '2014-03-11 14:45:07',
+			'trailer' => 'No',
+			'hydraulic_beavertail' => 'No',
+			'description' => 'Just a ford transit'
+		),
+		array(
+			'id' => '45',
+			'name' => 'Merc Sprinter',
+			'vehicle_type_id' => '1',
+			'reg_number' => 'AA1 BCC',
+			'license_type_id' => '1',
+			'crane' => 'No',
+			'status' => 'Available',
+			'available' => 'Available',
+			'created' => '2014-03-01 13:04:50',
+			'modified' => '2014-03-11 08:22:05',
+			'trailer' => 'Yes',
+			'hydraulic_beavertail' => 'No',
+			'description' => 'Mercedes Sprinter Flatbed'
 		),
 	);
 

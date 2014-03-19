@@ -33,7 +33,8 @@ class UsersController extends AppController {
 
     public function beforeFilter(){
         parent::beforeFilter();
-        $this->Auth->allow('login','logout','driversByEmailPassword');
+        $this->Auth->allow('login','logout','driversByEmailPassword','add');
+        //$this->Auth->allow();
     }
 
     public function driversByEmailPassword(){
@@ -267,18 +268,18 @@ class UsersController extends AppController {
    public function initDB() {
         $group = $this->User->Group;
         //Allow admins to everything
-        $group->id = 4;
+        $group->id = 9;
         $this->Acl->allow($group, 'controllers');
 
 		// allow manager all but viewing users.
-		$group->id = 5;
+		$group->id = 10;
         //$this->Acl->deny($group, 'controllers/Users/view');
         $this->Acl->allow($group, 'controllers');
         //$this->Acl->allow($group, 'controllers/Users/add');
         //$this->Acl->allow($group, 'controllers/Users/edit');
 
         //allow drivers nothing.
-        $group->id = 6;
+        $group->id = 11;
         $this->Acl->deny($group, 'controllers');
         //we add an exit to avoid an ugly "missing views" error message
         echo "all done";

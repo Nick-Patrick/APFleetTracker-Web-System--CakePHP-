@@ -56,17 +56,17 @@
                         <th width="200">Job</th>
                         <th width="250">Additional Details</th>
                         <th>Assigned To</th>
-                        <th width="200"></th>
+                        <!--<th width="200"></th>-->
                     </tr>
                     <?php foreach($assignedJobs as $assignedJob){ ?>
                         <tr>
                                 <td><?php echo $assignedJob['Job']['name']; ?></td>
                                 <td><?php echo $assignedJob['Job']['additional_details']; ?></td>
                                 <td><?php echo $assignedJob['Driver']['first_name']. " " . $assignedJob['Driver']['last_name'] ; ?></td>
-                                <td>
+                                <!--<td>
                                     <a href="#" class="small button expand">Manage Job</a><br>
                                    
-                                </td>
+                                </td>-->
                         </tr>
                     <?php } ?>
                     </table>

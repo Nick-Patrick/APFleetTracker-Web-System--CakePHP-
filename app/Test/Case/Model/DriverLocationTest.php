@@ -33,28 +33,50 @@ class DriverLocationTest extends CakeTestCase {
 		$result = $this->DriverLocation->find('all');
 
 		$expected = array(
-			'0' => array(
-				'DriverLocation' => array(
-					'id' => 1,
-					'driver_id' => 1,
-					'date_time_stamp' => '2014-01-02 09:52:03',
-					'latitude' => 1,
-					'longitude' => 1
-				),
-				'Driver' => array(
-					'id' => 1,
-					'user_id' => 1,
-					'license_type_id' => '1',
-					'available' => 'Active',
-					'last_logged_in' => '2007-03-18 10:41:23',
-					'created' => '2007-03-18 10:41:23',
-					'modified' => '2007-03-18 10:41:23',
-					'first_name' => 'Fred',
-					'last_name' => 'Jones',
-					'email' => 'fred@email.com',
-					'telephone' => '01234 564789'
-				)
-			)
+       		0 => Array(
+       			'DriverLocation' => Array (
+					'id' => '19029',
+		            'driver_id' => '458',
+		            'date_time_stamp' => '2014-03-01 04:06:05',
+		            'latitude' => '52.815',
+		            'longitude' => '-2.09746'
+       			),
+		        'Driver' => Array (
+					'id' => '458',
+		            'user_id' => '7',
+		            'license_type_id' => '4',
+		            'available' => 'Active',
+		            'last_logged_in' => null,
+		            'created' => '2014-02-16 08:03:16',
+		            'modified' => '2014-03-11 14:45:08',
+		            'first_name' => 'Nick',
+		            'last_name' => 'Patrick',
+		            'email' => 'nick@email.com',
+		            'telephone' => '01546 782132'
+		        )
+       		),
+       		1 => Array(
+       			'DriverLocation' => Array (
+       				'id' => '19030',
+		            'driver_id' => '458',
+		            'date_time_stamp' => '2014-03-01 04:06:05',
+		            'latitude' => '52.815',
+		            'longitude' => '-2.09746'
+       			),
+		        'Driver' => Array (
+					'id' => '458',
+		            'user_id' => '7',
+		            'license_type_id' => '4',
+		            'available' => 'Active',
+		            'last_logged_in' => null,
+		            'created' => '2014-02-16 08:03:16',
+		            'modified' => '2014-03-11 14:45:08',
+		            'first_name' => 'Nick',
+		            'last_name' => 'Patrick',
+		            'email' => 'nick@email.com',
+		            'telephone' => '01546 782132'
+		        )
+       		)
 		);
 
 		$this->assertEqual($expected, $result);

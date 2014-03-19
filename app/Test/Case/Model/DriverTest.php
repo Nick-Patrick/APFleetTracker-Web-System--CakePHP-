@@ -1,4 +1,4 @@
-<?php
+<?php 
 App::uses('Driver', 'Model');
 
 /**
@@ -40,225 +40,147 @@ class DriverTest extends CakeTestCase {
 		$result = $this->Driver->getActiveDrivers();
 		$expected = array(
 			'0' => array(
-				'Driver' => array(
-					'id' => 1,
-					'user_id' => 1,
-					'license_type_id' => '1',
-					'available' => 'Active',
-					'last_logged_in' => '2007-03-18 10:41:23',
-					'created' => '2007-03-18 10:41:23',
-					'modified' => '2007-03-18 10:41:23',
-					'first_name' => 'Fred',
-					'last_name' => 'Jones',
-					'email' => 'fred@email.com',
-					'telephone' => '01234 564789'
+				'Driver' => Array (
+					'id' => '458',
+		            'user_id' => '7',
+		            'license_type_id' => '4',
+		            'available' => 'Active',
+		            'last_logged_in' => null,
+		            'created' => '2014-02-16 08:03:16',
+		            'modified' => '2014-03-11 14:45:08',
+		            'first_name' => 'Nick',
+		            'last_name' => 'Patrick',
+		            'email' => 'nick@email.com',
+		            'telephone' => '01546 782132'
 				),
-				'User' => array(
-					'id' => 1,
-					'username' => 'fred@email.com',
-					'password' => 'password',
-					'role' => 'Driver',
-					'created' => '2014-01-02 09:53:27',
-					'modified' => '2014-01-02 09:53:27',
-					'first_name' => 'Fred',
-					'last_name' => 'Jones',
-					'email' => 'fred@email.com',
-					'telephone' => '0123456789',
-					'status' => 'Active',
-					'group_id' => '6'
+		        'User' => Array (
+		        	'id' => '7',
+		            'username' => 'nickManager',
+		            'password' => '9c36c7108a73324100bc9305f581979071d45ee9',
+		            'role' => 'Manager',
+		            'created' => '2014-01-12 06:05:44',
+		            'modified' => '2014-01-12 06:05:44',
+		            'first_name' => 'Nick',
+		            'last_name' => 'Manager',
+		            'email' => 'nick@email.com',
+		            'telephone' => '123456789',
+		            'status' => 'Active',
+		            'group_id' => '5',
+		            'driver_id' => ''
 				),
-				'DriverDailyActivity' => array(
-					'0' => array(
-						'id' => 1,
-						'driver_id' => 1,
-						'date_timestamp' => '2014-01-02 09:51:13',
-						'miles_driven' => 1,
-						'time_minutes_driven' => 1,
-						'time_minutes_break' => 1,
-						'jobs_completed' => 1
+		        'LicenseType' => Array (
+		        	'id' => null,
+		            'license_type' => null
+		        ),
+		        'DriverDailyActivity' => Array (),
+		        'DriverLocation' => Array (
+		        	0 => Array (
+		        		'id' => '19029',
+		                'driver_id' => '458',
+		                'date_time_stamp' => '2014-03-01 04:06:05',
+		                'latitude' => '52.815',
+		                'longitude' => '-2.09746',
+		        	),
+		        	1 => Array (
+		        		'id' => '19030',
+		                'driver_id' => '458',
+		                'date_time_stamp' => '2014-03-01 04:06:05',
+		                'latitude' => '52.815',
+		                'longitude' => '-2.09746'
 					)
-				),
-				'DriverLocation' => array(
-					'0' => array(
-						'id' => 1,
-						'driver_id' => 1,
-						'date_time_stamp' => '2014-01-02 09:52:03',
-						'latitude' => 1,
-						'longitude' => 1
-					)
-				 ),
-				'DriverVehicleJob' => array(
-					'0' => array(
-						'id' => 1,
-						'driver_id' => 1,
-						'job_id' => 1,
-						'vehicle_id' => 1,
-						'created' => '2014-01-02 09:52:26',
-						'modified' => '2014-01-02 09:52:26'
-					)
-				),
-				'JobSignature' => array(
-					'0' => array(
-						'id' => 1,
-						'driver_id' => 1,
-						'job_id' => 1,
-						'driver_signature' => 'Lorem ipsum dolor sit amet',
-						'customer_signature' => 'Lorem ipsum dolor sit amet',
-						'created' => '2014-01-02 09:52:56',
-						'modified' => '2014-01-02 09:52:56'
-					)
-				),
-				'LicenseType' => array(
-					'id' => 1,
-					'license_type' => 'Lorem ipsum dolor sit amet'
-				)
-			),
-			'1' =>	array(
-				'Driver' => array(
-					'id' => 3,
-					'user_id' => 3,
-					'license_type_id' => '1',
-					'available' => 'Active',
-					'last_logged_in' => '2007-03-18 10:41:23',
-					'created' => '2007-03-18 10:41:23',
-					'modified' => '2007-03-18 10:41:23',
-					'first_name' => 'Tom',
-					'last_name' => 'Well',
-					'email' => 'tom@email.com',
-					'telephone' => '45671 456789'
-				),
-				'User' => array(
-					'id' => 3,
-					'username' => 'tom@email.com',
-					'password' => 'password',
-					'role' => 'Driver',
-					'created' => '2014-01-02 09:53:27',
-					'modified' => '2014-01-02 09:53:27',
-					'first_name' => 'Tom',
-					'last_name' => 'Well',
-					'email' => 'tom@email.com',
-					'telephone' => '0123456789',
-					'status' => 'Active',
-					'group_id' => '6'
-				),
-				'DriverDailyActivity' => array(),
-				'DriverLocation' => array(),
-				'DriverVehicleJob' => array(),
-				'JobSignature' => array(),
-				'LicenseType' => array(
-					'id' => 1,
-					'license_type' => 'Lorem ipsum dolor sit amet'
-				)
+		        ),
+		        'DriverVehicleJob' => Array (
+		        	0 => Array (
+		        		'id' => '84',
+		                'driver_id' => '458',
+		                'job_id' => '105',
+		                'vehicle_id' => '44',
+		                'created' => '2014-03-11 14:44:05',
+		                'modified' => '2014-03-11 14:44:05',
+		                'status' => ''
+		        	),
+		        	1 => Array (
+		        		'id' => '83',
+		                'driver_id' => '458',
+		                'job_id' => '104',
+		                'vehicle_id' => '44',
+		                'created' => '2014-03-11 14:43:21',
+		                'modified' => '2014-03-11 14:43:21',
+		                'status' => ''
+		        	)
+		        ),
+		        'JobSignature' => Array ()
 			)
 		);
-
 		$this->assertEquals($expected, $result);
-
 	}
+ 			
 
 	public function testGetAvailableDrivers(){
 		$result = $this->Driver->getAvailableDrivers();
 		
 		$expected = array(
-			'0' => array(
-				'Driver' => array(
-					'id' => 2,
-					'user_id' => 2,
-					'license_type_id' => '2',
-					'available' => 'Available',
-					'last_logged_in' => '2007-03-18 10:41:23',
-					'created' => '2007-03-18 10:41:23',
-					'modified' => '2007-03-18 10:41:23',
-					'first_name' => 'Ian',
-					'last_name' => 'Gwyn',
-					'email' => 'ian@email.com',
-					'telephone' => '45671 456789'
+			0 => Array (
+				'Driver' => Array (
+					'id' => '459',
+		            'user_id' => '52',
+		            'license_type_id' => '3',
+		            'available' => 'Available',
+		            'last_logged_in' => null,
+		            'created' => '2014-02-16 08:04:28',
+		            'modified' => '2014-03-10 18:37:57',
+		            'first_name' => 'John',
+		            'last_name' => 'Doe',
+		            'email' => 'john@email.com',
+		            'telephone' => '01234 567891'
 				),
-				'User' => array(
-					'id' => 2,
-					'username' => 'ian@email.com',
-					'password' => 'password',
-					'role' => 'Driver',
-					'created' => '2014-01-02 09:53:27',
-					'modified' => '2014-01-02 09:53:27',
-					'first_name' => 'Ian',
-					'last_name' => 'Gwyn',
-					'email' => 'ian@email.com',
-					'telephone' => '0123456789',
-					'status' => 'Active',
-					'group_id' => '6'
-				),
-				'DriverDailyActivity' => array(),
-				'DriverLocation' => array(),
-				'DriverVehicleJob' => array(),
-				'JobSignature' => array(),
-				'LicenseType' => array(
-					'id' => 2,
-					'license_type' => 'Lorem ipsum dolor sit amet'
-				)
+		        'User' => Array (
+					'id' => null,
+		            'username' => null,
+		            'password' => null,
+		            'role' => null,
+		            'created' => null,
+		            'modified' => null,
+		            'first_name' => null,
+		            'last_name' => null,
+		            'email' => null,
+		            'telephone' => null,
+		            'status' => null,
+		            'group_id' => null,
+		            'driver_id' => null
+		        ),
+		        'LicenseType' => Array (
+					'id' => null,
+            		'license_type' => null
+		        ),
+		        'DriverDailyActivity' => Array (),
+		        'DriverLocation' => Array (),
+		        'DriverVehicleJob' => Array (),
+		        'JobSignature' => Array (),
 			)
-
 		);
 
 		$this->assertEquals($expected, $result);
-	}
+ 	}
 
 	public function testGetUnavailableDrivers(){
 		$result = $this->Driver->getUnavailableDrivers();
 
-		$expected = array(
-			'0' => array(
-				'Driver' => array(
-					'id' => 4,
-					'user_id' => 4,
-					'license_type_id' => '2',
-					'available' => 'Inactive',
-					'last_logged_in' => '2007-03-18 10:41:23',
-					'created' => '2007-03-18 10:41:23',
-					'modified' => '2007-03-18 10:41:23',
-					'first_name' => 'Maie',
-					'last_name' => 'Luo',
-					'email' => 'Maie@email.com',
-					'telephone' => '45671 456789'
-				),
-				'User' => array(
-					'id' => 4,
-					'username' => 'Maie@email.com',
-					'password' => 'password',
-					'role' => 'Driver',
-					'created' => '2014-01-02 09:53:27',
-					'modified' => '2014-01-02 09:53:27',
-					'first_name' => 'Maie',
-					'last_name' => 'Luo',
-					'email' => 'Maie@email.com',
-					'telephone' => '0123456789',
-					'status' => 'Active',
-					'group_id' => '6'
-				),
-				'DriverDailyActivity' => array(),
-				'DriverLocation' => array(),
-				'DriverVehicleJob' => array(),
-				'JobSignature' => array(),
-				'LicenseType' => array(
-					'id' => 2,
-					'license_type' => 'Lorem ipsum dolor sit amet'
-				)
-			)
-		);
+		$expected = array();
 
 		$this->assertEquals($expected, $result);
-	}
+ 	}
 
 
-/**
- * tearDown method
- *
- * @return void
- */
-	public function tearDown() {
-		unset($this->Driver);
+// /**
+//  * tearDown method
+//  *
+//  * @return void
+//  */
+// 	public function tearDown() {
+// 		unset($this->Driver);
 
-		parent::tearDown();
-	}
+// 		parent::tearDown();
+// 	}
 
 }

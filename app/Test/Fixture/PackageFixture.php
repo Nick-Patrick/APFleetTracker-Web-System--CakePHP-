@@ -6,24 +6,11 @@
 class PackageFixture extends CakeTestFixture {
 
 /**
- * Fields
+ * Import
  *
  * @var array
  */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary'),
-		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'length' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 10, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'width' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 10, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'weight' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 10, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'special_reqs' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1)
-		),
-		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
-	);
+	public $import = array('model' => 'Package');
 
 /**
  * Records
@@ -32,14 +19,26 @@ class PackageFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => 1,
-			'name' => 'Lorem ipsum dolor sit amet',
-			'length' => 'Lorem ip',
-			'width' => 'Lorem ip',
-			'weight' => 'Lorem ip',
-			'special_reqs' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-01-02 09:53:20',
-			'modified' => '2014-01-02 09:53:20'
+			'id' => '13',
+			'name' => 'Robotic Tractor',
+			'length' => '',
+			'width' => '',
+			'height' => '',
+			'weight' => '8000kg',
+			'special_reqs' => '',
+			'created' => '2014-03-06 19:32:48',
+			'modified' => '2014-03-06 19:32:48'
+		),
+		array(
+			'id' => '12',
+			'name' => 'Crate',
+			'length' => '2.5m',
+			'width' => '1.5m',
+			'height' => '1.25m',
+			'weight' => '3.55',
+			'special_reqs' => 'It\'s a crate.',
+			'created' => '2014-02-16 08:46:53',
+			'modified' => '2014-02-16 08:46:53'
 		),
 	);
 

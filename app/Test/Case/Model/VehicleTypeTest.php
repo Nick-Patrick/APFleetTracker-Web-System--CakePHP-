@@ -13,7 +13,7 @@ class VehicleTypeTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'app.vehicle_type'
+		'app.vehicle_type',
 	);
 
 /**
@@ -33,6 +33,7 @@ class VehicleTypeTest extends CakeTestCase {
  */
 	public function testParentNode() {
 	}
+
 
 /**
  * tearDown method

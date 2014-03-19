@@ -6,30 +6,11 @@
 class LocationFixture extends CakeTestFixture {
 
 /**
- * Fields
+ * Import
  *
  * @var array
  */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary'),
-		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'address1' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'address2' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'address3' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'town' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'county' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'postcode' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 10, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'opening_time' => array('type' => 'time', 'null' => true, 'default' => null),
-		'closing_time' => array('type' => 'time', 'null' => true, 'default' => null),
-		'days_open' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 20, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'telephone' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 20, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1)
-		),
-		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
-	);
+	public $import = array('model' => 'Location');
 
 /**
  * Records
@@ -38,20 +19,36 @@ class LocationFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => 1,
-			'name' => 'Lorem ipsum dolor sit amet',
-			'address1' => 'Lorem ipsum dolor sit amet',
-			'address2' => 'Lorem ipsum dolor sit amet',
-			'address3' => 'Lorem ipsum dolor sit amet',
-			'town' => 'Lorem ipsum dolor sit amet',
-			'county' => 'Lorem ipsum dolor sit amet',
-			'postcode' => 'Lorem ip',
-			'opening_time' => '09:53:13',
-			'closing_time' => '09:53:13',
-			'days_open' => 'Lorem ipsum dolor ',
-			'telephone' => 'Lorem ipsum dolor ',
-			'created' => '2014-01-02 09:53:13',
-			'modified' => '2014-01-02 09:53:13'
+			'id' => '209',
+			'name' => 'Tartin',
+			'address1' => 'Ashby Road',
+			'address2' => 'Twicross',
+			'address3' => '',
+			'town' => 'Atherston',
+			'county' => 'Warwickshire',
+			'postcode' => 'CV9 3PW',
+			'location_opening_times_id' => null,
+			'telephone' => '01234 567891',
+			'created' => '2014-03-01 13:18:29',
+			'modified' => '2014-03-01 13:18:29',
+			'latitude' => '52.6428',
+			'longitude' => '-1.50516'
+		),
+		array(
+			'id' => '205',
+			'name' => 'Telford Shopping Center',
+			'address1' => 'Telford',
+			'address2' => 'Longbridge Road',
+			'address3' => '',
+			'town' => 'Telford',
+			'county' => 'Shropshire',
+			'postcode' => 'TF3 4BX',
+			'location_opening_times_id' => null,
+			'telephone' => '02456 987456',
+			'created' => '2014-02-16 08:41:58',
+			'modified' => '2014-02-16 08:41:58',
+			'latitude' => '52.6766',
+			'longitude' => '-2.44678'
 		),
 	);
 

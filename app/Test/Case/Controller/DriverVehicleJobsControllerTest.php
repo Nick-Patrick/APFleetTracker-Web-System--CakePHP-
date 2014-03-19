@@ -25,7 +25,10 @@ class DriverVehicleJobsControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testIndex() {
+		$result = $this->testAction('/driverVehicleJobs/index');
+		debug($result);
 	}
+
 
 /**
  * testView method
@@ -33,6 +36,8 @@ class DriverVehicleJobsControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testView() {
+		$result = $this->testAction('/driverVehicleJobs/view/83');
+		debug($result);
 	}
 
 /**
@@ -41,7 +46,24 @@ class DriverVehicleJobsControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testAdd() {
+
+	$data = array(
+			'id' => '83',
+			'driver_id' => '458',
+			'job_id' => '104',
+			'vehicle_id' => '44',
+			'created' => '2014-03-11 14:43:21',
+			'modified' => '2014-03-11 14:43:21',
+			'status' => ''		
+		);
+
+
+		$result = $this->testAction('/driverVehicleJobs/add',
+			array('data' => $data, 'method' => 'post')
+			);
+		debug($result);
 	}
+
 
 /**
  * testEdit method
@@ -49,7 +71,22 @@ class DriverVehicleJobsControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testEdit() {
+
+		$data = array(
+			'id' => '83',
+			'driver_id' => '458',
+			'job_id' => '104',
+			'vehicle_id' => '44',
+			'created' => '2014-03-11 14:43:21',
+			'modified' => '2014-03-11 14:43:21',
+			'status' => ''
+		);
+
+		$result = $this->testAction('/driverVehicleJobs/edit/83',
+			array('data' => $data));
+		debug($result);
 	}
+
 
 /**
  * testDelete method
@@ -57,6 +94,13 @@ class DriverVehicleJobsControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testDelete() {
+		$result = $this->testAction('/driverVehicleJobs/delete/83');
+		debug($result);
 	}
+
+
+
+	
+
 
 }

@@ -13,7 +13,8 @@ class GroupsControllerTest extends ControllerTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'app.group'
+		'app.group',
+		'app.user'
 	);
 
 /**
@@ -22,6 +23,8 @@ class GroupsControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testIndex() {
+		$result = $this->testAction('/groups/index');
+		debug($result);
 	}
 
 /**
@@ -30,6 +33,8 @@ class GroupsControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testView() {
+		$result = $this->testAction('/groups/view/4');
+		debug($result);
 	}
 
 /**
@@ -38,23 +43,21 @@ class GroupsControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testAdd() {
+		$data = array(
+			'id' => '6',
+			'name' => 'Administrator',
+			'created' => '2014-01-12 05:42:46',
+			'modified' => '2014-01-12 05:42:46'
+		);
+
+		$result = $this->testAction('/groups/add',
+			array('data' => $data, 'method' => 'post')
+			);
+		debug($result);
+
 	}
 
-/**
- * testEdit method
- *
- * @return void
- */
-	public function testEdit() {
-	}
 
-/**
- * testDelete method
- *
- * @return void
- */
-	public function testDelete() {
-	}
 
 /**
  * testAdminIndex method

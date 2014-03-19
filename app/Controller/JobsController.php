@@ -19,7 +19,7 @@ class JobsController extends AppController {
  * Other Models
  * Job
  */
-    var $uses = array('Job','Location','Package','Driver','Vehicle','User','Job_Package','DriverLocation');
+    var $uses = array('Job','Location','Package','Driver','Vehicle','User','Job_Package','DriverLocation','UpdateLog');
 
 /**
 * Helpers

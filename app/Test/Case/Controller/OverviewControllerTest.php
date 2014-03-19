@@ -21,7 +21,11 @@ class OverviewControllerTest extends ControllerTestCase {
 		'app.job',
 		'app.vehicle',
 		'app.job_signature',
-		'app.group'
+		'app.group',
+		'app.license_type',
+		'app.location',
+		'app.job_package',
+		'app.update_log'
 	);
 
 /**

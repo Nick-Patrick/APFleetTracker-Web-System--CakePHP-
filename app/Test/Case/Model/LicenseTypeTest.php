@@ -13,7 +13,9 @@ class LicenseTypeTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'app.license_type'
+		'app.license_type',
+		'app.driver',
+		'app.vehicle'
 	);
 
 /**
@@ -33,6 +35,8 @@ class LicenseTypeTest extends CakeTestCase {
  */
 	public function testParentNode() {
 	}
+
+
 
 /**
  * tearDown method
