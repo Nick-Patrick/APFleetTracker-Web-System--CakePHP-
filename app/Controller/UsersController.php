@@ -265,7 +265,7 @@ class UsersController extends AppController {
 		return $this->redirect(array('action' => 'index'));
 	}
 
-   public function initDB() {
+   /*public function initDB() {
         $group = $this->User->Group;
         //Allow admins to everything
         $group->id = 9;
@@ -284,7 +284,7 @@ class UsersController extends AppController {
         //we add an exit to avoid an ugly "missing views" error message
         echo "all done";
         exit;
-    }
+    }*/
 
 }
 

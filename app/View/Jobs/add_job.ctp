@@ -41,7 +41,7 @@
         <!-- Add Collection Point -->
         <div class="row">
             <div class="large-12 columns">
-                    <h4>Collection Point: <span class="subheader" style="font-weight:700;" id="collection_name"></span><a href="#" id="addLocationButton" data-reveal-id="modalPopup" class="small button right">Create New Location</a></h4>
+                    <h4>Collection Point: <span class="subheader" style="font-weight:700;" id="collection_name" class="collection_name"></span><a href="#" id="addLocationButton" data-reveal-id="modalPopup" class="small button right">Create New Location</a></h4>
                     
                     <div class="large-4 columns">
                         <?php
@@ -111,8 +111,9 @@
         <div class="row">
             <div class="large-12 columns">
                 
-                    <h4>Dropoff Point: <span class="subheader" style="font-weight:700;" id="dropoff_name"></span></h4>
+                    <h4>Dropoff Point: <span class="subheader" style="font-weight:700;" id="dropoff_name" class="dropoff_name"></span></h4>
                     <div class="large-4 columns">
+
                         <?php
                             echo $this->Form->input('Job.dropoff_id',
                                 array('type' => 'select',
@@ -120,7 +121,8 @@
                                 'multiple' => false, 
                                 'size' => '8',
                                 'options' => $locations,
-                                'tabindex' => '7')
+                                'tabindex' => '7',
+                                'class' => 'dropoffSelect')
                             );
                         ?>
                     </div>
@@ -246,7 +248,7 @@
                     </li>
 
                     <li>
-                        <button id="assignLaterJob" class="alert button">Save and Assign Later</button>
+                        <button id="assignLaterJob" class="saveJobButton alert button">Save and Assign Later</button>
                     </li>
 
                 </ul>

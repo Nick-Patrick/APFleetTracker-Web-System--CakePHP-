@@ -35,7 +35,6 @@ $(document).ready(function(){
     	getLocationDetails();
     	getPackageDetails();
     	
-
     	$('#JobCollectionId').change(function(){
 			var collectionId = $(this).val();
 			updateLocationDetails(collectionId,locationR);
@@ -402,3 +401,4 @@ function assignJobToDriver(){
 
 
 };
+
