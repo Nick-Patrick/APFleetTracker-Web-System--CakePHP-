@@ -86,6 +86,7 @@ function getFilterVars(){
         success: function(locationResult){
             console.log(locationResult);
             var driverCount = 0;
+            var locationCount = 0;
             var truckMarkerImage = "";
             var truckPrevMarkerImage = "";
             clearMapMarkers(); //Clear map.
@@ -111,6 +112,7 @@ function getFilterVars(){
                         location.timestamp = v.DriverLocation.date_time_stamp;
                         location.firstName = v.Driver.first_name;
                         location.lastName = v.Driver.last_name;
+                        location.driverId = v.DriverLocation.driver_id;
                         locations.push(location);
                         firstLocation++;
                         return;
@@ -118,28 +120,36 @@ function getFilterVars(){
                 });
                 truckMarkerImage = "/apTracker/img/truckMarker";
                 truckPrevMarkerImage = "/apTracker/img/measleBlue";
+                dropoffMarkerImage = "/apTracker/img/dropoffMarker";
+                collectionMarkerImage = "/apTracker/img/collectionMarker";
+            
+
             }
 
             $.each(locations, function(i,v){
                 var latLng = new google.maps.LatLng(v.lat, v.lng);
                 var filterDate = new Date(($('#filterDate').val()));
-                var markerDate = new Date(v.timestamp);
+            var markerDate = new Date(v.timestamp);
                 //Take off times so dates can be compared.
                 filterDate.setHours(0,0,0,0);
                 markerDate.setHours(0,0,0,0);
  
 
+
                 if(Date.parse(filterDate) == Date.parse(markerDate)){
+
+
+
                     if(v.currentPosition == "Yes"){
                         if(plotCurrentLocation == "Yes"){
                             markerIcon = truckMarkerImage + driverCount + ".png"; //"/apTracker/img/truckMarker.png";
                             driverCount++;
-
+                            console.log(v);
                             var contentString = "<h4>" + v.firstName + " " + v.lastName + "</h4>" +
                                 "<ul class='no-bullet'>" +
-                                "<li>Something" + "</li>" +
+                                "<li>Current Position" + "</li>" +
                                 "</ul>" +
-                                "<button class='button tiny expand'>View Job</button>" +
+                                "<a class='button tiny expand' href='http://aphaulage.co.uk/apTracker/jobs/viewCurrentActiveJob/" + v.driverId + "'>View Job</a>" +
                                 "<h5><small>" + v.timestamp + "</small></h5>";
                             var infowindow = new google.maps.InfoWindow({
                                 content: contentString
@@ -155,8 +165,89 @@ function getFilterVars(){
                                 infowindow.open(map,marker);
                             });
                             markersArray.push(marker);
+
+                            $.ajax({
+                               type: 'POST',
+                                async: true,
+                                global: 'false',
+                                url: '/apTracker/jobs/getActiveLocationsByDriver.json',
+                                data:  {
+                                    'driverId': v.driverId
+                                },
+                                headers: {Accept: 'application/json'},
+                                dataType: 'json',
+                                success: function(destinationResult){
+                                    console.log(destinationResult);
+                                    $.each(destinationResult.locations, function(i, v) {
+
+                                        markerIcon = dropoffMarkerImage + locationCount + ".png"; //"/apTracker/img/truckMarker.png";
+                                        collectionMarkerIcon = collectionMarkerImage + locationCount + ".png"; //"/apTracker/img/truckMarker.png";
+
+                                        console.log(v);
+                                       
+                                        //Dropoff
+                                        var latLng = new google.maps.LatLng(v.Dropoff.latitude, v.Dropoff.longitude);
+                                        if(plotDropoffPoint == "Yes"){
+                                            var dropoffContentString = "<h4>Dropoff: " + v.Dropoff.name + "</h4>" +
+                                                "<ul class='no-bullet'>" +
+                                                "<li>" + v.Dropoff.address1 + "</li>" + 
+                                                "<li>" + v.Dropoff.town + "</li>" +
+                                                "<li>" + v.Dropoff.postcode + "</li>" +
+                                                "<li>" + v.Dropoff.telephone + "</li>" +
+                                                "</ul>";
+
+                                            var dropoffInfowindow = new google.maps.InfoWindow({
+                                                content: dropoffContentString
+                                            });
+                                            var dropoffMarker = new google.maps.Marker ({
+                                                position: latLng,
+                                                title: v.Dropoff.name,
+                                                map: map,
+                                                icon: markerIcon,
+                                                animation: google.maps.Animation.DROP
+                                            });
+                                            google.maps.event.addListener(dropoffMarker, 'click', function() {
+                                                dropoffInfowindow.open(map,dropoffMarker);
+                                            });
+                                            markersArray.push(dropoffMarker);
+                                        }
+
+                                        //Collection
+                                        if(plotCollectionPoint == "Yes"){
+                                            var latLng = new google.maps.LatLng(v.Collection.latitude, v.Collection.longitude);
+
+                                            var collectionContentString = "<h4>Collection: " + v.Collection.name + "</h4>" +
+                                                "<ul class='no-bullet'>" +
+                                                "<li>" + v.Collection.address1 + "</li>" + 
+                                                "<li>" + v.Collection.town + "</li>" +
+                                                "<li>" + v.Collection.postcode + "</li>" +
+                                                "<li>" + v.Collection.telephone + "</li>" +
+                                                "</ul>";
+                                                var infowindow = new google.maps.InfoWindow({
+                                                content: collectionContentString
+                                            });
+                                            var collectionMarker = new google.maps.Marker ({
+                                                position: latLng,
+                                                title: v.Collection.name,
+                                                map: map,
+                                                icon: collectionMarkerIcon,
+                                                animation: google.maps.Animation.DROP
+                                            });
+                                            google.maps.event.addListener(collectionMarker, 'click', function() {
+                                                infowindow.open(map,collectionMarker);
+                                            });
+                                            markersArray.push(collectionMarker);
+                                        }
+                                    }); 
+                                locationCount++;
+
+                                }  
+                            });
                         }
                     }
+
+
+
                     else {
                         if(plotRouteTaken == "Yes"){
                             prevDriverCount = driverCount;
@@ -165,6 +256,8 @@ function getFilterVars(){
                             console.log(prevDriverCount);
                             markerIcon = truckPrevMarkerImage + prevDriverCount + ".png";
                             var contentString = "<h4>" + v.firstName + " " + v.lastName + "</h4>" +
+
+                                "<a class='button tiny expand' href='http://aphaulage.co.uk/apTracker/jobs/viewCurrentActiveJob/" + v.driverId + "'>View Job</a>" +
                                                 "<h5><small>" + v.timestamp + "</small></h5>";
                             var infowindow = new google.maps.InfoWindow({
                                 content: contentString
@@ -182,11 +275,14 @@ function getFilterVars(){
                             markersArray.push(marker);
                         }
                     }
+
+
+
                 }
 
             });
          
-
+            
         }
 
     });

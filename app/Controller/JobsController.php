@@ -28,7 +28,7 @@ class JobsController extends AppController {
 
     public function beforeFilter(){
         parent::beforeFilter();
-       $this->Auth->allow('assignedJobsByDriverId','updateActiveJob');
+       $this->Auth->allow('addJob','assignedJobsByDriverId','updateActiveJob');
     }
 
 /**
@@ -266,6 +266,13 @@ class JobsController extends AppController {
      	$this->set('vehicles', $vehicles);
 
 
+     }
+
+     public function getActiveLocationsByDriver(){
+        $driverId = $this->request->data['driverId'];
+        $this->set('locations', $this->Job->getActiveJobByDriverId($driverId));
+
+        $this->set('_serialize', array('locations'));
      }
 
      public function viewCurrentActiveJob($driverId){

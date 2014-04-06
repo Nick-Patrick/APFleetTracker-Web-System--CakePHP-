@@ -60,19 +60,7 @@
                        <?php
                             }
 
-                       ?>
-                       <li>Available Drivers</li>
-                       <?php 
-                            foreach($availableDrivers as $availableDriver){ ?>
-                               <li>
-                                   <input name="checkedDrivers" id="<?php echo $availableDriver['Driver']['id']; ?>" value="<?php echo $availableDriver['Driver']['id']; ?>" type="checkbox" checked>
-                                        <label for="<?php echo $availableDriver['Driver']['id']; ?>">
-                                             <?php echo $availableDriver['Driver']['first_name'] . " " . $availableDriver['Driver']['last_name']; ?>
-                                        </label>
-                                   </input>
-
-                               </li>
-                         <?php } ?>
+                      ?>
                     </ul>
                 </div>
                 <div class="content" id="panel2-2">
@@ -101,11 +89,11 @@
                     <label for="plotRouteTaken">Plot Route Taken</label>
                 </li>
                 <li>
-                    <input id="plotCollectionPoint" name="plotCollectionPoint" value="plotCollectionPoint" type="checkbox"/>
+                    <input id="plotCollectionPoint" name="plotCollectionPoint" value="plotCollectionPoint" type="checkbox" checked/>
                     <label for="plotCollectionPoint">Plot Collection Point</label>
                 </li>
                 <li>
-                    <input id="plotDropoffPoint" name="plotDropoffPoint" value="plotDropoffPoint" type="checkbox"/>
+                    <input id="plotDropoffPoint" name="plotDropoffPoint" value="plotDropoffPoint" type="checkbox" checked/>
                     <label for="plotDropoffPoint">Plot Dropoff Point</label>
                 </li>
 
