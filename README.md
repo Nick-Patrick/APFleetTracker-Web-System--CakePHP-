@@ -1,3 +1,11 @@
+Users
+======
+
+Log in using:
+Username: admin
+Password: password
+
+
 CakePHP
 =======
 
